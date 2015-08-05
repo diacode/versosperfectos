@@ -1,0 +1,28 @@
+%p#notice= notice
+
+.row
+  .span2
+    = image_tag @user.avatar_url
+  .span10
+    %h2= @user.displayname
+    %span.muted= @user.email
+
+    %h3 Últimos Comentarios
+
+    #comments
+      - if @last_comments.any?
+        - @last_comments.each do |comment|
+          .comment
+            .post= link_to comment.post.title, post_extended_path(comment.post.permalink_hash), target: '_blank'
+            .content= raw comment.content
+            .meta.muted= l comment.created_at
+
+      - else
+        %p.muted El usuario no he escrito ningún comentario.
+
+
+.row
+  .span12
+    .form-actions
+      = link_to 'Editar', edit_admin_user_path(@user), class: 'btn btn-primary'
+      = link_to 'Back', admin_users_path, class: 'btn'

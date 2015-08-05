@@ -1,0 +1,9 @@
+%ul#account_sections
+  %li
+    = link_to edit_account_path, class: ('current' if params[:action] == 'edit') do 
+      %i.icon-user
+      %span General
+  %li
+    = link_to connections_account_path, class: ('current' if params[:action] == 'connections') do
+      %i.icon-link
+      %span Conexiones

@@ -1,0 +1,93 @@
+- content_for(:title) { "#{@user.displayname} | VersosPerfectos" }
+
+#user_profile.regular_view{data: {id: @user.id}}
+  %h1 Perfil de usuario
+
+  .row-fluid
+    .span8
+      .profile-header
+        .pull-left
+          = image_tag @user.avatar_url, class: 'img-circle avatar'
+        .pull-left
+          %h3= link_to @user.displayname, profile_path(@user)
+          / %div Tagline bla bla bla
+          %div.muted 
+            Miembro desde el
+            = l @user.created_at, format: :long
+      
+      .clearfix
+
+      .tabbable
+        %ul.nav.nav-tabs
+          %li.active= link_to "Favoritos", "#profile_favorites", data: {toggle: 'tab'}
+          %li= link_to "Puntuaciones", "#profile_ratings", data: {toggle: 'tab'}
+          %li= link_to "Letras enviadas", "#profile_lyrics", data: {toggle: 'tab'}
+          %li= link_to "Reseñas", "#profile_reviews", data: {toggle: 'tab'}
+
+        .tab-content
+          #profile_favorites.tab-pane.active
+            %h4 Autores
+            
+            - if @favorite_artists.any?
+              #favorite_artists
+                = render "liked_artists", artists: @favorite_artists
+              
+              = link_to "Cargar más", liked_artists_profile_path(@user, page: 2), id: 'load_more_favorite_artists', class: 'btn btn-block btn-load-more', remote: true, data: {page: 2} if @favorite_artists.size == 10
+
+            - else
+              %p.muted No ha marcado ningún artista como favorito.
+
+            %h4 Discos
+
+            - if @favorite_albums.any?
+              #favorite_albums.album-list
+                = render "liked_albums", albums: @favorite_albums
+
+              = link_to "Cargar más", liked_albums_profile_path(@user, page: 2), id: 'load_more_favorite_albums', class: 'btn btn-block btn-load-more', remote: true, data: {page: 2} if @favorite_albums.size == 8
+
+            - else
+              %p.muted No ha marcado ningún album como favorito.
+
+            %h4 Canciones
+
+            - if @favorite_songs.any?
+              #favorite_songs
+                = render "liked_songs", songs: @favorite_songs
+              
+              = link_to "Cargar más", liked_songs_profile_path(@user, page: 2), id: 'load_more_favorite_songs', class: 'btn btn-block btn-load-more', remote: true, data: {page: 2} if @favorite_songs.size == 10
+            
+            - else
+              %p.muted No ha marcado ningúna canción como favorita.
+
+          #profile_ratings.tab-pane
+            - if @album_ratings.any?
+              #album_ratings.album-list
+                = render "ratings", ratings: @album_ratings
+
+              = link_to "Cargar más", ratings_profile_path(@user, page: 2), id: 'load_more_ratings', class: 'btn btn-block btn-load-more', remote: true, data: {page: 2} if @album_ratings.size == 8
+
+            - else
+              %p.muted Este usuario aun no ha puntuado ningún trabajo.
+
+
+          #profile_lyrics.tab-pane
+            - if @lyrics_sent.any?
+              %ul#lyrics_sent
+                = render "lyrics_sent", lyrics_sent: @lyrics_sent
+
+              = link_to "Cargar más", lyrics_sent_profile_path(@user, page: 2), id: 'load_more_lyrics_sent', class: 'btn btn-block btn-load-more', remote: true, data: {page: 2} if @lyrics_sent.size == 10
+
+            - else 
+              %p.muted Este usuario aun no ha enviado ninguna letra.
+          #profile_reviews.tab-pane
+            - if @reviews.any?
+              #reviews_sent
+                = render "reviews", reviews: @reviews
+
+            - else 
+              %p.muted Este usuario aun no ha enviado ninguna reseña.
+
+    .span4
+      .ad_box_300= raw @ad_rectangle
+      / %h2 Actividad
+      / %p.muted No se ha registrado actividad hasta el momento.

@@ -1,0 +1,109 @@
+- content_for :title do
+  = @artist.name
+
+.poster_wrapper
+  .posters{class: ('empty' if @artist.pictures.empty?)}
+    - @artist.pictures.each_with_index do |pic, idx|
+      .poster{:style => "background-image:url(#{pic.image_url(:poster)})", :class => ("visible" if idx == 0)}
+
+  .scroller
+    %i.icon-circle
+    %i.icon-circle
+    %i.icon-circle
+
+  .overlay
+    .pull-left
+      = image_tag(@artist.portrait_url(:square), :class => "portrait img-circle") 
+    
+    .pull-left
+      %h1.artist-header=link_to @artist.name, artist_path(@artist)
+      .meta
+        / %i.icon-map-marker.icon-large 
+        / %span.location Zaragoza, España
+
+        - if @artist.web.present?
+          %i.icon-globe.icon-large
+          %span.website= link_to "Web", @artist.web
+
+        - if @artist.facebook_url.present?
+          %i.icon-facebook.icon-large
+          %span.facebook= link_to "Facebook", @artist.facebook_url
+
+        - if @artist.twitter.present?
+          %i.icon-twitter.icon-large
+          %span.twitter= link_to "@#{@artist.twitter}", "http://twitter.com/#{@artist.twitter}"
+
+        - if @artist.soundcloud.present?
+          %i.icon-cloud.icon-large
+          %span.soundcloud= link_to "SoundCloud", "http://soundcloud.com/#{@artist.soundcloud}"
+
+    .pull-right
+      #fav_counter.counter
+        = link_to like_artist_path(@artist), remote: true, method: :post, class: artist_fav_class(@liked), id: "fav_artist" do
+          %i.icon-heart
+        .counter_text_space
+          .quantity= @artist.fav_count
+          .title fans
+
+    .clearfix
+
+#artist_record.regular_view
+  .row-fluid
+    .span8
+      - if @artist.group
+        %h2 Integrantes
+        #members
+          - @artist.members.each do |member|
+            .member
+              = link_to artist_path(member) do
+                = image_tag(member.portrait_url(:square), :class => "artist img-circle")
+              .artist_name
+                =link_to member.name, artist_path(member)
+
+      %h2 Biografía
+
+      #biography
+        - if @artist.bio.present?
+          = raw @artist.bio
+        - else 
+          %p.muted No hay biografía asociada a este autor.
+
+      %h2#discography_header Discografía
+
+      #discography
+        - if @discography.any?
+          - @discography.each do |alb|
+            .album
+              .cover= link_to image_tag(alb.cover_url(:medium)), album_path(alb)
+              .title= link_to "#{alb.title}", album_path(alb)
+              .year.muted= alb.year
+        - else
+          %p No hay discografía asociada a este autor. 
+
+
+      %h2 Colabos
+
+      #collabos
+        - if @collabos.any?
+          %table
+            %tbody
+              - @collabos.each do |c|
+                = render "collabo_row", collabo: c
+                          
+          = will_paginate @collabos, renderer: BootstrapPagination::Rails, params: {anchor: "collabos"}, inner_window: 2, outer_window: 1
+
+        - else
+          %p.muted No hay colaboraciones relacionadas con este autor. 
+
+    .span4.sidebar
+      .ad_box_300= raw @ad_rectangle
+
+      %h3 Noticias relacionadas
+
+      .sidebar-posts
+        - @related_posts.each do |p|
+          .sidebar-post-item
+            .preview
+              = image_tag p.illustration
+            .title
+              =link_to("#{p.title}", post_extended_path(p.permalink_hash))

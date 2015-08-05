@@ -1,0 +1,4 @@
+- lyrics_sent.each do |song|
+  %li.lyric-sent
+    %i.icon-file
+    = link_to "#{song.artist.name} - #{song.title}", song

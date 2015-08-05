@@ -1,0 +1,22 @@
+- content_for :title do
+  Índice artistas
+
+%h1 Índice de artistas
+
+= form_tag admin_artists_path, :method => :get, :class => "form-search" do
+  = text_field_tag "q", nil, :class => "input-xlarge search-query"
+  %button.btn{:type => "submit"} Buscar
+
+%table.table.table-striped.table-bordered.table-condensed
+  %tr
+    %th Nombre
+    %th
+
+  - @artists.each do |artist|
+    %tr
+      %td= link_to artist.name, edit_admin_artist_path(artist)      
+      %td= link_to 'Destroy', [:admin, artist], :confirm => 'Are you sure?', :method => :delete
+
+= will_paginate @artists, :renderer => BootstrapPagination::Rails
+
+= link_to 'Nuevo artista', new_admin_artist_path, :class => "btn btn-primary"

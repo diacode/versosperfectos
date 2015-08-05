@@ -1,0 +1,43 @@
+- content_for :title, "Lanzamientos semana #{@current_week.cweek} del año #{@current_week.cwyear}"
+- content_for :description, "Lanzamientos para la semana del #{l(@current_week, format: :long)} al #{l(@current_week.end_of_week, format: :long)}"
+
+#releases_page.regular_view
+  .row-fluid
+    .span8
+      %h1 Lanzamientos
+
+      #week_selector
+        .row-fluid
+          .span3.prev-week
+            = link_to "« Anterior", releases_albums_path(year: @previous_week.cwyear, week: @previous_week.cweek), class: 'btn'
+
+          .span6.current-week.muted
+            #{l(@current_week, format: :long)} <br/> #{l(@current_week.end_of_week, format: :long)}
+
+          .span3.next-week
+            = link_to "Siguiente »", releases_albums_path(year: @next_week.cwyear, week: @next_week.cweek), class: 'btn'
+
+      #releases     
+        - if @releases.any?         
+          - @releases.each do |album|
+            .release            
+              = link_to(image_tag(album.cover_url(:medium), :class => "cover"), album_path(album), class: 'pull-left')
+              
+              .info.pull-right
+                %h3.artist= link_to album.artist.name, artist_url(album.artist)
+                %h2.title= link_to "#{album.title} (#{album.year})", album_url(album)
+                
+                .meta.muted
+                  %i.icon-calendar
+                  = l album.release_date, format: :long
+
+              .clearfix
+
+        - else
+          %p.muted.no-releases No hay lanzamientos para estas fechas.
+
+
+
+    .span4
+      .ad_box_300= raw @ad_rectangle
+      

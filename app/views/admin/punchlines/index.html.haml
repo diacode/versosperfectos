@@ -1,0 +1,25 @@
+%h1 Listado de Punchlines
+
+%table#tbl_punchlines.table.table-striped.table-bordered.table-condensed
+  %thead
+    %tr
+      %th &nbsp;
+      %th Autor
+      %th Título
+      %th Año
+      %th Formato
+      %th
+
+  %tbody
+    - @punchlines.each do |punchline|
+      %tr
+        %td
+          %button.btn-feature{class: ('featured' if punchline.featured), data: {punchline_id: punchline.id}}
+            %i.icon-star
+        %td= punchline.album.artist.name
+        %td= link_to punchline.album.title, edit_admin_punchline_path(punchline)
+        %td= punchline.album.year
+        %td= punchline.album.format
+        %td= link_to 'Destroy', [:admin, punchline], :confirm => '¿Estás seguro?', :method => :delete
+
+= will_paginate @punchlines, :renderer => BootstrapPagination::Rails

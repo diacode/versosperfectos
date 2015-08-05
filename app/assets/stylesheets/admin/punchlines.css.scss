@@ -1,0 +1,35 @@
+#punchline_lead_in{
+  width:90%;
+  height:100px;
+}
+
+#punchline_tracklist{
+  margin-top:20px;
+  .actions{ width: 85px; }
+}
+
+#tbl_punchlines{
+  tr{
+    td:first-child{
+      width: 25px;
+    }
+  }
+  button.btn-feature{
+    border:0;
+    background-color: transparent;
+    color:#bbb;
+    font-size:15px;
+
+    &:hover, &.featured{
+      color:yellow;
+    }
+  }
+}
+
+#artworks{
+  margin-top:20px;
+  
+  .col-thumb{
+    width:100px;
+  }
+}

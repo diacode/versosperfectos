@@ -1,0 +1,27 @@
+%tr.collabo
+  %td.cover
+    = link_to album_path(collabo.song.albums.first) do
+      = image_tag collabo.song.albums.first.cover_url
+  %td.album
+    = link_to album_path(collabo.song.albums.first), class: 'title' do
+      %em= collabo.song.albums.first.title 
+      = "(#{collabo.song.albums.first.year})"
+    = link_to collabo.song.albums.first.effective_artist_name, artist_path(collabo.song.albums.first.artist), class: 'author'
+  %td.song
+    = link_to collabo.song.title, collabo.song
+    
+    - if collabo.mc
+      %i.icon-microphone
+      Vocal
+    
+    - if collabo.producer
+      %i.icon-music 
+      Producción
+
+    - if collabo.dj
+      %i.icon-bullseye
+      Scratches
+
+    - if collabo.clip_director
+      %i.icon-video-camara 
+      Dirección video

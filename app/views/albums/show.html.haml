@@ -1,0 +1,157 @@
+- content_for :title do
+  = "#{@album.effective_artist_name} - #{@album.title} (#{@album.year})"
+
+- content_for :description do
+  = album_description(@album) + ". Todas las letras y streaming."
+
+- content_for :head do
+  = open_graph_for_album @album
+
+#album_card.regular_view{data:{id: @album.id}}
+  .row-fluid
+    .span8
+      .album_meta
+        .left
+          = link_to image_path(@album.cover_url(:medium)), data: {featherlight: 'image'} do
+            = image_tag @album.cover_url(:small), width: 125
+        .right
+          %h1
+            #{link_to @album.effective_artist_name, artist_path(@album.artist), class: 'artist'} #{@album.title}
+          .record_label
+            = "#{@album.format}, #{@album.year}"
+            = raw "— #{link_to(@album.record_label.name, '#')}" if @album.record_label
+
+          .info=raw strip_tags(@album.info).truncate(500)
+
+          .actions
+            =link_to like_album_path(@album), remote: true, method: :post, :class => album_fav_class(@liked), id: "album_fav" do
+              %i.icon-heart
+              %span.count= @album.fav_count
+            
+            =link_to "#rating_modal", :class => "rating", :data => {:toggle => "modal"} do
+              %i.icon-star
+              = @album.average_rating.round(2) 
+            
+            %small
+              %strong= @album.vote_count
+              personas puntuaron este disco
+            /=link_to "Escribir reseña", "#"
+
+
+      .body
+        %h3 Tracklist
+
+        %table#tracklist
+          %thead
+            %tr
+              %th.num_track #.
+              %th Título
+              %th Producción
+
+          %tbody
+            - @album.tracks.each do |trk|
+              %tr
+                %td.num_track= "%02d" % trk.track_number
+                %td.title= link_to trk.song.title, song_url(trk.song)
+                %td
+                  - if !trk.song.producers.empty?
+                    = raw trk.song.producers.map { |p| link_to p.name, p }.join(", ")
+                  - else
+                    —
+        
+        %h3 Colabos
+
+        #collaborations
+          - if @album.featured_artists.size > 0
+            - @album.featured_artists.each do |ft|
+              .colabo
+                = link_to artist_path(ft) do
+                  = image_tag(ft.portrait_url(:square), :class => "artist img-circle")
+                .artist_name
+                  =link_to ft.name, artist_path(ft)
+                .types
+                  / = image_tag "white-microphone-icon.png"
+                  / = image_tag "white-music-icon.png"
+                  / = image_tag "white-turntable-icon.png"
+          - else
+            %p
+              %i No hay colaboraciones registradas en este trabajo.
+
+        %h3 Reseñas
+
+        #reviews
+          - if @reviews.any?
+            - @reviews.each do |review|
+              .review
+                .col
+                  .reviewer
+                    = image_tag review.author.avatar, class: 'img-circle'
+
+                .col
+                  .rating
+                    = link_to review.author, "#"
+                    puntuó este trabajo con
+                    %span.stars= review.total_score
+                      
+                  .excerpt
+                    = review.content.truncate(250).html_safe
+
+                  .meta
+                    .date
+                      hace
+                      = time_ago_in_words review.created_at
+
+                    = link_to "Leer reseña completa »", album_review_path(@album, review)
+          - else 
+            %p.muted De momento nadie ha escrito aun sobre este trabajo.
+
+    .span4
+      .ad_box_300= raw @ad_rectangle
+
+      - if @album.has_any_streaming?
+        %h4 Escúchalo en streaming
+
+        #album_stream= raw album_embed_streaming(@album)
+
+      %h4 Videoclips
+
+      #videoclips
+        - if !@album.songs.having_clip.empty?
+          - @album.songs.having_clip.each do |clip|
+            .videoclip
+              - if clip.video_link
+                - youtube_id = Utils.youtube_id clip.video_link
+
+                - if youtube_id
+                  = image_tag "http://img.youtube.com/vi/#{youtube_id}/2.jpg", :width => 120, :height => 80
+                - else
+                  = image_tag "http://www.basekit.es/widget/image/placeholder.png", :width => 120, :height => 80
+                  
+              .title= link_to clip.title, clip.video_link
+        - else 
+          %p
+            %em No hay clips relacionados con este trabajo. 
+
+
+- if user_signed_in?
+  / Modal
+  #rating_modal.modal{role: "dialog"}
+    = form_tag vote_album_path(@album.id), remote: true, id: 'rating_form' do |f|
+      = hidden_field_tag :score
+
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"} ×
+        %h3 Selecciona tu puntuación para este trabajo:
+      
+      .modal-body
+        #star_meter
+        #rating_selected
+
+      .modal-footer
+        %button.button.orange.squared{type: "submit"}
+          %i.icon-white.icon-ok
+          Aceptar
+
+        %button.button{"data-dismiss" => "modal"} 
+          %i.icon-white.icon-remove
+          Cancelar

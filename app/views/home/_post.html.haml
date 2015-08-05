@@ -1,0 +1,20 @@
+.post     
+  .categories
+    =post.categories[0].name if post.categories.any?
+
+  .title
+    %h3
+      =link_to post.title, post_extended_path(post.permalink_hash)
+
+  .meta.muted
+    %strong= post.creator_effective_name
+    |
+    = l post.published_at, format: :semi_long
+  .comments-bubble
+    = link_to post.comments_count, post_extended_path(post.permalink_hash.merge(anchor: "comments"))
+  .clearfix
+     
+  = link_to post_extended_path(post.permalink_hash) do
+    .picture{style: "background-image: url(#{post.illustration});"}
+      
+  .content= raw strip_tags(post.content).truncate(250)

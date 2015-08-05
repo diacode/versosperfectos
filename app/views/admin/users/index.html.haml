@@ -1,0 +1,26 @@
+%h1 Usuarios
+
+= form_tag admin_users_path, :method => :get, :class => "form-search" do
+  .input-append
+    = text_field_tag "q", params[:q], :class => "span4 search-query"
+    %button.btn{:type => "submit"} Buscar
+
+%table.table.table-bordered
+  %tr
+    %th Email
+    %th Displayname
+    %th Registro
+    %th Último login
+    %th
+    %th
+
+  - @users.each do |user|
+    %tr
+      %td= user.email
+      %td= user.displayname
+      %td= user.created_at
+      %td= user.last_sign_in_at
+      %td= link_to 'Ver', [:admin, user]
+      %td= link_to 'Editar', edit_admin_user_path(user)
+
+= will_paginate @users, renderer: BootstrapPagination::Rails

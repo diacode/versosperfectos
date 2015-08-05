@@ -1,0 +1,11 @@
+%h1 Administrar bloques destacados
+
+#featured
+  - for i in 0..5
+    %div{id: "f#{i}", class: 'feature'}
+      - if @featured_blocks[i].nil?
+        = link_to new_admin_featured_block_path(slot: i) do 
+          %span.icon-plus-sign
+      - else
+        = link_to edit_admin_featured_block_path(id: @featured_blocks[i].id, slot: i), style: "background: url(#{@featured_blocks[i].poster_url}) center center no-repeat" do 
+          %span.icon-plus-sign

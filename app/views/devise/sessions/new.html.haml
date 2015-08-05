@@ -1,0 +1,30 @@
+- content_for :title do 
+  VP | Iniciar sesión
+
+- if flash.empty?
+  .alert
+    %h4 Aviso a antiguos usuarios
+    %p Por motivos de seguridad los usuarios que iniciéis sesión por primera vez en VP 4.0 y que tuvieráis cuenta en la versión anterior debéis #{link_to 'resetear', new_password_path(resource_name)} vuestra contraseña previamente.
+
+.portlet
+  #facebook_connect
+    =link_to omniauth_authorize_path(resource_name, "facebook") do
+      =image_tag "access/facebook-connect.png"
+
+  .or
+
+  = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+    .wrapper
+      %div.field
+        = f.email_field :email, :placeholder => "Email"
+      %div.field
+        = f.password_field :password, :placeholder => "Contraseña"
+      
+      - if devise_mapping.rememberable?
+        %div.field
+          = f.check_box :remember_me
+          = f.label :remember_me, "Recordarme"
+
+      %div
+        = f.submit "Entrar"
+        = link_to "¿Olvidaste tu contraseña?", new_password_path(resource_name)

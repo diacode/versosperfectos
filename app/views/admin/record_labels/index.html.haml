@@ -1,0 +1,15 @@
+%h1 Listado de sellos
+
+%table.table.table-striped.table-bordered.table-condensed
+  %tr
+    %th Nombre
+    %th
+
+  - @record_labels.each do |record_label|
+    %tr
+      %td= link_to record_label.name, edit_admin_record_label_path(record_label)
+      %td= link_to 'Destroy', [:admin, record_label], :confirm => '¿Estás seguro?', :method => :delete
+
+= will_paginate @record_labels, :renderer => BootstrapPagination::Rails
+
+= link_to 'Nuevo sello', new_admin_record_label_path, :class => "btn btn-primary"

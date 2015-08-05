@@ -1,0 +1,19 @@
+- content_for :title do
+  VP | Cambia tu contraseña
+
+.portlet
+  %h2 Cambia tu contraseña
+
+  = form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
+
+    = devise_error_messages!
+
+    .wrapper
+      = f.hidden_field :reset_password_token
+
+      .field
+        = f.password_field :password, placeholder: 'Contraseña'
+      .field
+        = f.password_field :password_confirmation, placeholder: 'Confirmar contraseña'
+      
+      %div= f.submit "Cambiar mi contraseña"

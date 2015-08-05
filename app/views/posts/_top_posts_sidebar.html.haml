@@ -1,0 +1,23 @@
+%h2 Lo más leído
+
+.top.sidebar-posts
+  - @week_readed_news.each do |p|
+    .sidebar-post-item
+      .preview
+        = image_tag p.illustration
+      .title
+        =link_to("#{p.title}", post_extended_path(p.permalink_hash))
+
+%h2 Lo más comentado
+
+.top.sidebar-posts
+  - if @week_commented_news.any?
+    - @week_commented_news.each do |p|
+      .sidebar-post-item
+        .preview
+          = image_tag p.illustration
+        .title
+          =link_to("#{p.title}", post_extended_path(p.permalink_hash))
+
+  - else
+    %p.blank No hay actividad aun.

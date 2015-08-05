@@ -1,0 +1,200 @@
+= form_for [:admin, @album], :html => {:multipart => true} do |f|
+  -if @album.errors.any?
+    #error_explanation    
+      %div{:class => "alert alert-error"}
+        %a.close{"data-dismiss" => "alert"} ×
+  
+        %h2= "#{pluralize(@album.errors.count, "error")} impidieron que este álbum se guardara:"
+        %ul
+          - @album.errors.full_messages.each do |msg|
+            %li= msg
+
+  .tabbable
+    %ul.nav.nav-tabs
+      %li.active
+        =link_to "Detalles", "#tab1", :data => {:toggle => "tab"}
+      %li
+        =link_to "Tracklist", "#tab2", :data => {:toggle => "tab"}
+    
+    .tab-content
+      #tab1.tab-pane.active
+        .row
+          .span5
+            .field
+              = f.label :artist_id, "Artista"
+              = f.hidden_field :artist_id, :style => "width:250px;"
+              = hidden_field_tag :artist_name, @album.artist.name if !@album.artist_id.nil?
+
+            .field
+              = f.label :alias_id, "Alias empleado"
+              = f.select :alias_id, @alias_choices.map { |e| [e.name, e.id] }, include_blank: 'No seleccionado'
+
+            .field
+              = f.label :title, "Título"
+              = f.text_field :title, :class => "input-xlarge"
+            .field
+              = f.label :year, "Año"
+              = f.number_field :year, :class => "input-mini"
+            .row-fluid
+              .span5
+                .field
+                  = f.label :release_date, "Fecha de lanzamiento"
+                  = f.text_field :release_date, 
+                    :value => (@album.release_date.strftime("%d/%m/%Y") if !@album.release_date.nil?), 
+                    :class => "datepicker input-small"
+            
+              .span5
+                .field
+                  = f.label :trimester_planned, "Trimestre"
+                  = f.select :trimester_planned, album_trimester_options, {:include_blank => "—"}, :class => "input-medium"
+
+            .field
+              = f.label :record_label_id, "Sello discográfico"
+              = f.hidden_field :record_label_id
+              = hidden_field_tag :record_label_name, @album.record_label.name if !@album.record_label.nil?
+
+            .field
+              = f.label :format, "Formato"
+              = f.select :format, album_format_options, {}, :class => "input-medium"
+
+              = f.label :demo, :class => "checkbox inline" do
+                = f.check_box :demo
+                Demo (Maketa)
+
+            .field
+              = f.label :cover, "Portada"
+
+              - if @album.cover?
+                = image_tag(@album.cover_url)
+                .div
+                  = f.label :remove_cover, :class => "checkbox inline" do
+                    = f.check_box :remove_cover
+                    Borrar portada
+
+              = f.file_field :cover
+              = f.text_field :remote_cover_url, :placeholder => "URL de la imagen", :class => "input-xlarge"
+
+
+          .span7
+            .field
+              = f.label :info
+              = f.text_area :info, class: 'redactor'
+
+            .field
+              = f.label :spotify_identifier, "Id. de Spotify"
+              = f.text_field :spotify_identifier
+
+            .field
+              = f.label :soundcloud_embed_code, "Código embed Soundcloud"
+              = f.text_area :soundcloud_embed_code, placeholder: "Ingresa el embed del set de Soundcloud", rows: 3, class: 'input-xlarge'
+
+            .field
+              = f.label :bandcamp_embed_code, "Código embed Bandcamp"
+              = f.text_area :bandcamp_embed_code, placeholder: "Ingresa el embed del set de Bandcamp", rows: 3, class: 'input-xlarge'
+
+      #tab2.tab-pane
+        .row
+          .span6
+            %p#status_tracklist
+
+          .span6
+            #tracklist_button_bar
+              %button#new_song.btn.btn-primary{type: :button}
+                %i.icon-plus.icon-white
+                Nueva canción
+
+              %button#existing_song.btn.btn-primary{type: :button}
+                %i.icon-search.icon-white
+                Asociar existente
+              
+              %button#massive_association.btn.btn-primary{type: :button}
+                Asociación masiva
+
+        .row
+          .span12        
+            %table#tracklist.table.table-bordered.table-condensed      
+              %thead
+                %tr
+                  %th.check= check_box_tag "song_selection_all"
+                  %th.song_id Id.
+                  %th.number_track Núm.
+                  %th.song_title Título
+                  %th.action
+                  %th.action
+              
+              %tbody
+                = f.fields_for :tracks do |f_track|
+                  %tr{:data => {:track_id => f_track.object.id} }
+                    %td.check= check_box_tag 'song_selection[]', f_track.object.song_id, false, class: 'song-selection'
+                    %td.song-id= f_track.object.song.id
+                    %td= f_track.text_field :track_number, :class => "input-mini"
+                    %td= link_to f_track.object.song.title, edit_admin_song_path(f_track.object.song)
+                    %td
+                      %button.btn.btn-small.btn-danger.btn-delete-song{type: :button}
+                        Borrar
+                    %td
+                      %button.btn.btn-small.btn-info.btn-unlink-song{type: :button}
+                        Desligar
+
+      .row
+        .span12
+          .form-actions
+            .pull-left
+              = f.submit 'Guardar', :class => "btn btn-primary"
+              = link_to 'Cancelar', admin_albums_path, :class => "btn"
+              = link_to 'Borrar este álbum', [:admin, @album], :confirm => '¿Estás seguro?', :method => :delete, :class => "btn btn-danger"
+            .pull-right
+              - if params[:action] == "edit"
+                - if @album.punchline.nil?
+                  = link_to "Crear Punchline", admin_punchlines_path(album_id: @album.id), method: :post, class: 'btn btn-primary'
+                - else
+                  = link_to "Editar Punchline asociado", edit_admin_punchline_path(@album.punchline), class: 'btn btn-primary'
+
+            .clearfix
+
+#song_search.modal
+  .modal-header
+    Búsqueda de canción
+
+  .modal-body
+    = form_tag("/admin/songs/search", :id => "song_search_form", :class => "form-inline song-search") do |form_search|
+      = text_field_tag :song_search_artist, nil, :placeholder => "Artista", :class => "input-small song_search_artist"
+      = text_field_tag :song_search_title, nil, :placeholder => "Titulo", :class => "input-large song_search_title"
+      %button.btn.btn-small.btn-primary
+        %i.icon-search.icon-white
+
+    .song_search_results
+
+#artist_massive_association.modal.hide
+  .modal-header
+    Asociación masiva
+
+  .modal-body
+    = form_tag(massive_association_admin_albums_path, remote: true, id: "massive_association_form", class: "form-inline song-search") do |form_search|
+      = hidden_field_tag :song_ids
+
+      .field
+        = hidden_field_tag :artist_id, "", class: "input-small song_search_artist"
+
+      .field
+        = label_tag :collaboration, :class => "checkbox inline" do
+          = check_box_tag :collaboration
+          Colaboración
+        
+        = label_tag :mc, class: "checkbox inline" do
+          = check_box_tag :mc
+          MC
+        
+        = label_tag :producer, class: "checkbox inline" do
+          = check_box_tag :producer
+          Productor
+
+        = label_tag :dj, class: "checkbox inline" do
+          = check_box_tag :dj
+          DJ
+        
+        = label_tag :clip_director, class: "checkbox inline" do
+          = check_box_tag :clip_director
+          Director clip
+
+      %button.btn.btn-small.btn-primary Asociar

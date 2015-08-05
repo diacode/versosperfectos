@@ -1,0 +1,99 @@
+= form_for [:admin, @record_label], :html => {:multipart => true} do |f|
+  -if @record_label.errors.any?
+    #error_explanation      
+      %div{:class => "alert alert-error"}
+        %a.close{"data-dismiss" => "alert"} ×
+        %h2= "#{pluralize(@record_label.errors.count, "error")} prohibited this record_label from being saved:"
+        %ul
+          - @record_label.errors.full_messages.each do |msg|
+            %li= msg
+
+  .tabbable
+    %ul.nav.nav-tabs
+      %li.active
+        =link_to "Detalles", "#tab1", :data => {:toggle => "tab"}
+      %li
+        =link_to "Discografía", "#tab2", :data => {:toggle => "tab"}
+
+    .tab-content
+      #tab1.tab-pane.active
+        .row
+          .span5
+            .field
+              = f.label :name, "Nombre"
+              = f.text_field :name, :class => "input-xlarge"
+            .field              
+              = f.label :international, :class => "checkbox inline" do
+                = f.check_box :international
+                Internacional
+
+            %h3 Social
+
+            .field
+              = f.label :web, "Web"
+              = f.text_field :web, :class => "input-xlarge"
+            .field
+              = f.label :twitter, "Twitter"
+              = f.text_field :twitter, :class => "input-xlarge"
+            .field
+
+            %h3 Contacto
+
+            .field
+              = f.label :email, "Email"
+              = f.text_field :email, :class => "input-xlarge"
+            .field
+              = f.label :phone, "Teléfono"
+              = f.text_field :phone, :class => "input-xlarge"
+            .field
+              = f.label :address, "Dirección"
+              = f.text_field :address, :class => "input-xlarge"
+          .span7   
+            .field
+              = f.label :logo, "Logotipo"
+
+              - if @record_label.logo?
+                = image_tag(@record_label.logo_url) if @record_label.logo?
+                .div
+                  = f.label :remove_logo, :class => "checkbox inline" do
+                    = f.check_box :remove_logo
+                    Borrar portada
+
+              = f.file_field :logo
+              = f.text_field :remote_logo_url, :placeholder => "URL de la imagen", :class => "input-xlarge"
+
+            .field
+              = f.label :info
+              = f.text_area :info
+      
+      #tab2.tab-pane
+        .row
+          .span12
+            %table.table.table-bordered.table-condensed    
+              %thead
+                %tr
+                  %th Id.
+                  %th Disco
+                  %th Lanzamiento
+              
+              %tbody
+                - @record_label.albums.each do |alb|
+                  %tr
+                    %td= alb.id
+                    %td= link_to "#{alb.effective_artist_name} - #{alb.title} (#{alb.year})", edit_admin_album_path(alb) 
+                    %td
+                      -if alb.release_date
+                        =l(alb.release_date, :format => :default) 
+                      -else
+                        %span.undetermined_date Sin determinar
+
+            %p.released_albums 
+              %strong= @record_label.albums.size
+              discos editados.
+  .row
+    .span12
+      .form-actions          
+        = f.submit 'Guardar', :class => "btn btn-primary"
+        = link_to 'Cancelar', admin_record_labels_path, :class => "btn"
+        = link_to 'Borrar este sello', [:admin, @record_label], 
+          :confirm => '¿Estás seguro?', :method => :delete, :class => "btn btn-danger"

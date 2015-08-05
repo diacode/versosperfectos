@@ -1,0 +1,5 @@
+%tr.nested-fields
+  %td= f.object.id
+  %td= f.text_field :name
+  %td
+    = link_to_remove_association 'Borrar', f, class: 'btn btn-danger btn-small'

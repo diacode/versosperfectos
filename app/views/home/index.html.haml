@@ -1,0 +1,92 @@
+#featured
+  - for i in 0..5
+    %div{id: "f#{i}", class: 'feature', style: ("background-image: url(#{@featured_blocks[i].poster_url})" if !@featured_blocks[i].nil?)}
+      - if !@featured_blocks[i].nil?
+        = link_to "", @featured_blocks[i].link
+        .title= @featured_blocks[i].title
+
+  #f6.feature{style: ("background-image: url(#{@featured_punchline.album.cover_url(:medium)})" if !@featured_punchline.nil?)}
+    .badge
+      %h2 TRABAJO DESTACADO
+    - if !@featured_punchline.nil?
+      = link_to "", @featured_punchline
+      .title  
+        = @featured_punchline.album.effective_artist_name
+        <br/>
+        = @featured_punchline.album.title
+
+#first_home_block.posts-block
+  .row-fluid
+    - @top_block.each do |column|
+      .span4.posts
+        - column.each do |p|
+          = render "post", post: p
+
+    #other_stuff.span4
+      %h2 Próximos lanzamientos
+
+      #incoming_releases
+        - if @incoming_releases.any?
+          - @incoming_releases.each do |album|
+            .incoming-release
+              = image_tag album.cover_url(:small), class: 'cover pull-left'
+              .pull-left.info
+                = link_to album do
+                  %strong= album.title
+                  %br
+                  = album.artist.name
+
+                .muted= l album.release_date, format: :short
+
+              .clearfix
+        - else
+          %p.muted No hay lanzamientos próximos previstos.
+
+        = link_to "Ver más", releases_albums_path, class: 'btn btn-block'
+
+      %h2 Últimas letras
+
+      #last_lyrics
+        - @last_lyrics.each do |song|
+          .lyric
+            = link_to "#{song.artist.name} - #{song.title}", song
+            .meta.muted Agregada el #{l(song.lyrics_date, format: :short)}
+
+#last_reviews
+  %h2 Últimas reseñas
+
+  .row-fluid
+    - @last_reviews.each do |review|
+      .span4
+        = link_to album_review_path(review.album, review), class: 'review' do
+          .cover{style: "background-image:url(#{review.album.cover_url(:medium)})"}
+          .meta
+            = image_tag review.author.avatar_url, class: 'author-avatar pull-left img-circle'
+            .author-sign.pull-left
+              Autor:
+              %br
+              %strong= review.author.displayname
+            .rating.pull-right.muted= review.total_score.round(1)
+            .clearfix
+
+#second_home_block.posts-block
+  .row-fluid    
+    - @bottom_block.each do |column|
+      .span4.posts
+        - column.each do |p|
+          = render "post", post: p
+
+  .row-fluid
+    .span6.offset3
+      = link_to "Ver más", posts_url, class: 'btn btn-block'
+
+
+/ #last_punchlines
+/   %h2 Últimos punchlines
+
+/   .row-fluid
+/     - @punchlines.each do |pl|
+/       .span3
+/         .punchline
+/           =image_tag pl.album.cover_url
+/           %h3= link_to pl.album.title

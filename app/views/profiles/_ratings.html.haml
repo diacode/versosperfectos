@@ -1,0 +1,10 @@
+- ratings.each do |rating|
+  .album
+    = link_to album_path(rating.album), class: 'cover' do
+      .cover-overlay
+        .rating= "%g" % rating.score
+
+      = image_tag(rating.album.cover_url)
+    
+    .title= link_to "#{rating.album.title}", album_path(rating.album)
+    .year.muted= rating.album.year

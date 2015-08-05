@@ -1,0 +1,52 @@
+@import "compass";
+@import "../variables";
+@import "../featured";
+
+#featured{
+  background: transparent;
+
+  .feature{
+    a{
+      span{
+        cursor: pointer;
+        text-align: center;
+        height: 100%;
+        width: 100%;
+        font-size: 60px;
+      }
+    }
+
+    a:hover{
+      text-decoration: none;
+      transition: color 0.2s ease;
+      color:#fff;
+    }
+
+    img{
+      // position:absolute;
+      // top:0;
+      // left:0;
+    }
+  }
+
+  #f0{
+    a span { line-height: 345px; }
+  }
+
+  #f1, #f2, #f3, #f4, #f5{
+    a span { line-height: 185px; }
+  }
+}
+
+.jcrop img {
+  max-width: none;
+}
+
+.featured-block-poster-actions,
+#manipulate_wrapper{
+  margin-bottom:15px;
+}
+
+#image_resizer{
+  display:none;
+}

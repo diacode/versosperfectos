@@ -1,0 +1,34 @@
+#review.regular_view
+  .row-fluid
+    .span2
+      = image_tag @review.album.cover_url(:small)
+
+    .span7 
+      %div.muted
+        Publicado el 
+        = l @review.created_at, format: :long
+
+      .meta
+        = image_tag @review.author.avatar_url, class: 'pull-left img-circle'
+        
+        .pull-left
+          .title Reseña por:
+          .user= link_to @review.author.displayname, profile_path(@review.author)
+        
+        .pull-right
+          .score
+            %i.icon-star
+            = @review.total_score
+
+        .clearfix
+
+      %h1
+        = link_to album_review_path(@review.album, @review) do
+          = @review.album.effective_artist_name
+          %br
+          = "#{@review.album} (#{@review.album.year})" 
+
+      #review_content
+        = raw @review.content
+
+    .span3

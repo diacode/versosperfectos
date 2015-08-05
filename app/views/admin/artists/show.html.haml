@@ -1,0 +1,55 @@
+%p
+  %b Name:
+  = @artist.name
+%p
+  %b Real name:
+  = @artist.real_name
+%p
+  %b Bio:
+  = @artist.bio
+%p
+  %b Management:
+  = @artist.management_id
+%p
+  %b International:
+  = @artist.international
+%p
+  %b Mc:
+  = @artist.mc
+%p
+  %b Producer:
+  = @artist.producer
+%p
+  %b Dj:
+  = @artist.dj
+%p
+  %b Clip director:
+  = @artist.clip_director
+%p
+  %b Group:
+  = @artist.group
+%p
+  %b Web:
+  = @artist.web
+%p
+  %b Myspace:
+  = @artist.myspace
+%p
+  %b Dissolved:
+  = @artist.dissolved
+%p
+  %b Birth date:
+  = @artist.birth_date
+%p
+  %b Death date:
+  = @artist.death_date
+%p
+  %b Twitter:
+  = @artist.twitter
+%p
+  %b Birth place:
+  = @artist.birth_place_id
+
+= link_to 'Edit', edit_admin_artist_path(@artist)
+\|
+= link_to 'Back', admin_artists_path

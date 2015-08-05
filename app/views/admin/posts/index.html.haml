@@ -1,0 +1,33 @@
+%h1 Índice de noticias
+
+= form_tag admin_posts_path, :method => :get, :class => "form-search" do
+  .input-append
+    = text_field_tag "q", nil, :class => "input-xlarge search-query"
+    %button.btn{:type => "submit"} Buscar
+
+%table.table.table-striped.table-bordered.table-condensed
+  %tr
+    %th Fecha
+    %th Título
+    %th Autor
+    %th
+
+  - @posts.each do |post|
+    %tr
+      %td= l post.published_at, format: :short
+      %td
+        = link_to post.title, edit_admin_post_path(post)
+        - if post.draft
+          %span.label.label-info Borrador
+        - unless post.draft
+          = link_to post_extended_path(post.permalink_hash), target: '_blank', class: 'pull-right' do
+            %i.icon-share.pull
+      %td
+        = post.creator
+      %td
+        = link_to [:admin, post], :confirm => '¿Estás seguro de quieres borrar esta noticia?', :method => :delete do
+          %i.icon-trash.text-error
+
+= will_paginate @posts, :renderer => BootstrapPagination::Rails
+
+= link_to 'Nueva noticia', new_admin_post_path, :class => "btn btn-primary"

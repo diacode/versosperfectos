@@ -1,0 +1,648 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ * require_tree .
+*/
+
+@import "compass";
+
+/* Core variables and mixins */
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+@import "bootstrap/reset";
+
+/* Grid system and page structure */
+@import "bootstrap/scaffolding";
+@import "bootstrap/grid";
+@import "bootstrap/layouts";
+@import "bootstrap/modals";
+@import "bootstrap/sprites";
+@import "bootstrap/forms";
+@import "bootstrap/alerts";
+@import "bootstrap/navbar";
+@import "bootstrap/navs";
+@import "bootstrap/dropdowns";
+@import "bootstrap/buttons";
+@import "bootstrap/button-groups";
+@import "bootstrap/pagination";
+@import "bootstrap/utilities";
+
+@import 'font-awesome';
+@import 'vendor/jquery.highlighter';
+@import 'vendor/jquery.readmore';
+@import 'vendor/featherlight';
+@import "mediaelement_rails";
+
+@import "variables";
+
+@import "home";
+@import "featured";
+@import "posts";
+@import "artists";
+@import "albums";
+@import "songs";
+@import "accounts";
+@import "profiles";
+@import "reviews";
+@import "search";
+
+@import url(http://fonts.googleapis.com/css?family=Syncopate:400,700);
+@import url(http://fonts.googleapis.com/css?family=Coustard:400,900);
+@import url(http://fonts.googleapis.com/css?family=Nunito:400,700);
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,700);
+@import url(http://fonts.googleapis.com/css?family=Nobile:400,700italic,700,400italic);
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic);
+@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic);
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('Gotham-Book.eot');
+  src: local('Gotham Book'), local('Gotham-Book'), url('Gotham-Book.woff') format('woff'), url('Gotham-Book.otf') format('opentype'), url('Gotham-Book.svg#Gotham-Book') format('svg');
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('Gotham-BookItalic.eot');
+  src: local('Gotham Italic'), local('Gotham-BookItalic'), url('Gotham-BookItalic.woff') format('woff'), url('Gotham-BookItalic.otf') format('opentype'), url('Gotham-BookItalic.svg#Gotham-BookItalic') format('svg');
+  font-style:italic;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('Gotham-Bold.eot');
+  src: local('Gotham Bold'), local('Gotham-Bold'), url('Gotham-Bold.woff') format('woff'), url('Gotham-Bold.otf') format('opentype'), url('Gotham-Bold.svg#Gotham-Bold') format('svg');
+  font-weight:bold;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('Gotham-BoldItalic.eot');
+  src: local('Gotham Bold Italic'), local('Gotham-BoldItalic'), url('Gotham-BoldItalic.woff') format('woff'), url('Gotham-BoldItalic.otf') format('opentype'), url('Gotham-BoldItalic.svg#Gotham-BoldItalic') format('svg');
+  font-weight:bold;
+  font-style:italic;
+}
+
+@font-face {
+  font-family: 'GothamLight';
+  src: url('Gotham-Light.eot');
+  src: local('Gotham Light'), local('Gotham-Light'), url('Gotham-Light.woff') format('woff'), url('Gotham-Light.otf') format('opentype'), url('Gotham-Light.svg#Gotham-Light') format('svg');
+}
+
+@font-face {
+  font-family: 'GothamLight';
+  src: url('Gotham-LightItalic.eot');
+  src: local('Gotham Light Italic'), local('Gotham-LightItalic'), url('Gotham-LightItalic.woff') format('woff'), url('Gotham-LightItalic.otf') format('opentype'), url('Gotham-LightItalic.svg#Gotham-LightItalic') format('svg');
+  font-style:italic;
+}
+
+@font-face {
+  font-family: 'GothamMedium';
+  src: url('Gotham-Medium.eot');
+  src: local('Gotham Medium'), local('Gotham-Medium'), url('Gotham-Medium.woff') format('woff'), url('Gotham-Medium.otf') format('opentype'), url('Gotham-Medium.svg#Gotham-Medium') format('svg');
+}
+
+@font-face {
+  font-family: 'GothamMedium';
+  src: url('Gotham-MediumItalic.eot');
+  src: local('Gotham Medium Italic'), local('Gotham-MediumItalic'), url('Gotham-MediumItalic.woff') format('woff'), url('Gotham-MediumItalic.otf') format('opentype'), url('Gotham-MediumItalic.svg#Gotham-MediumItalic') format('svg');
+  font-style:italic;
+}
+
+
+body{
+  background: url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/cream_dust.png);
+  font-family: 'Gotham';
+}
+
+a,
+a:link,
+a:active,
+a:visited{
+  color: $orange_reshulon;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top:0px;
+  text-rendering: optimizelegibility;
+}
+
+p {
+}
+
+// Lists
+// --------------------------------------------------
+
+// Unordered and Ordered lists
+ul, ol {
+  padding: 0;
+  margin: 0 0 $baseLineHeight / 2 25px;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: 0;
+}
+li {
+  line-height: $baseLineHeight;
+}
+ul.unstyled,
+ol.unstyled {
+  margin-left: 0;
+  list-style: none;
+}
+
+// Description Lists
+dl {
+  margin-bottom: $baseLineHeight;
+}
+dt,
+dd {
+  line-height: $baseLineHeight;
+}
+dt {
+  font-weight: bold;
+}
+dd {
+  margin-left: $baseLineHeight / 2;
+}
+// Horizontal layout (like forms)
+.dl-horizontal {
+  @include clearfix(); // Ensure dl clears floats if empty dd elements present
+  dt {
+    float: left;
+    width: $horizontalComponentOffset - 20;
+    clear: left;
+    text-align: right;
+    @include text-overflow();
+  }
+  dd {
+    margin-left: $horizontalComponentOffset;
+  }
+}
+
+/* BOOTSTRAP OVERRIDES */
+.alert{
+  padding-top:15px;
+}
+
+.field_with_errors {
+  @extend .control-group;
+  @extend .error;
+}
+
+.form-horizontal .field_with_errors
+{
+  margin: 0;
+}
+
+.form-horizontal .field_with_errors:before, .form-horizontal .field_with_errors::after 
+{
+  display: block;
+  clear: none;
+}
+
+.nav-tabs{
+  padding-left:5px;
+}
+
+.muted {
+  color:#999;
+}
+
+.container{
+  width:1022px;
+}
+
+#top_bar {
+  width:100%;
+  // background-color:#000;
+  // needs latest Compass, add '@import "compass"' to your scss
+  background-color: #565656; // Old browsers
+  @include filter-gradient(#565656, #3f3f3f, vertical); // IE6-9
+  @include background-image(linear-gradient(top,  #565656 0%,#3f3f3f 100%));
+  border-left:8px solid $orange_reshulon;
+  margin-left:-8px;
+  float:left;
+  clear:both;
+  color:#fff;
+
+  #login_box{
+    margin:0;
+
+    & > li{
+      float:left;
+    }
+
+    a{
+      padding: 7px;
+    }
+
+    a:hover{
+      background: #333;
+      text-decoration: none;
+    }
+    
+    .dropdown-toggle .caret{
+      border-top-color: $orange_reshulon;
+      border-bottom-color: $orange_reshulon;
+    }
+
+    .dropdown-menu{
+      @include border-radius(0px);
+      margin: 0px;
+      border: 0px;
+      padding: 0px;
+    }
+    .dropdown-menu > li > a {
+      color: $orange_reshulon;
+    }
+  }
+
+  #search{
+    float:right;
+    input[type="text"]{
+      background: #666;
+      border: none;
+      margin: 7px 0px;
+      font-size: 15px;
+      color: #CCC;
+      padding: 3px 5px;
+      width:250px;
+    }
+  }
+}
+
+nav{
+  background: $orange_reshulon;
+
+  ul {
+    list-style-type:none;
+    float:left;
+    margin:0;
+    padding:0;  
+
+    li {
+      float:left;
+      font-family: 'Lato', serif;
+      text-transform:uppercase;
+      font-size:20px;
+      font-weight:600;
+
+      a,
+      a:link,
+      a:active,
+      a:visited{
+        display:block;
+        padding:10px 20px;
+        color:#fff;
+      }
+
+      a:hover{
+        text-decoration:none;
+        background-color: $orange_reshulon;
+      }
+    }
+  }
+
+  form#search{
+    margin:5px 0px;
+    
+    .input-append{
+      margin:0;
+    }
+  }
+}
+
+header{
+  padding:20px 0px;
+
+
+  .logo{
+    display:block;
+    float:left;
+    margin:0px;
+
+    img{
+      margin-top: -3px;
+      margin-left: 80px;
+    }
+  }
+
+  .ad{
+    float:right;
+  }
+}
+
+#wrapper{
+	width: 1024px;
+	margin: 0 auto;
+  background-color: #fcfcfc;
+  
+  #main{
+    background: #fff;
+    float:left;
+    clear:both;    
+    margin-bottom:25px;
+    @include box-shadow(0px 1px 4px #BBACAC);
+  }
+}
+
+
+footer{
+  clear:both;
+  width:100%;
+  background-color:#000;
+  color:#fff;
+  padding:25px 0px 5px;
+
+  h5{
+    display: block;
+    font-size: 1.17em;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  ul{
+    padding:0px;
+    list-style-type: none;
+  }
+
+  .credits{
+    text-align: right;
+    margin-top:15px;
+    padding:10px;
+    font-size:11px;
+  }
+
+  #social{
+    text-align: right;
+    
+    a {
+      font-size: 30px;
+      background: $orange_reshulon;
+      border-radius: 30px;
+      padding: 10px;
+      width: 30px;
+      display: inline-block;
+      text-align: center;
+      color: white;
+      margin: 0px 4px;
+      &:hover{
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+// input[type="text"],
+// textarea{
+//   border-color:#ccc;
+//   border-radius: 5px;
+// }
+
+.button {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font: 14px/100% Arial, Helvetica, sans-serif;
+  padding: .5em 1em .55em;
+  text-shadow: 0 1px 1px rgba(0,0,0,.3);
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+
+  &.squared{
+    @include border-radius(0px); 
+  }
+}
+
+.button:hover {
+  text-decoration: none;
+}
+
+.button:active {
+  position: relative;
+  top: 1px;
+}
+
+.button.orange {
+  color: #fef4e9;
+  border: solid 1px #da7c0c;
+  background: #f78d1d;
+  background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+  background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+}
+.button.orange:hover {
+  background: #f47c20;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+  background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+}
+.button.orange:active {
+  color: #fcd3a5;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+  background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+}
+
+.ad_box_336{
+  width: 336px;
+  height: 280px;
+  background: $placeholder;
+  margin:0 auto;
+}
+
+.ad_box_300{
+  width: 300px;
+  height: 250px;
+  background: $placeholder;
+  margin:0 auto;
+}
+
+.ad_box_728{
+  width: 728px;
+  height: 90px;
+  background: $placeholder;
+  margin-top:7px;
+}
+
+.regular_view{
+  padding:30px;
+  background: #fff;
+
+  h1{
+
+  }
+
+  h2{
+    font-family:'Lato';
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size:23px;
+    float:left;
+    clear:both;
+  }
+
+  h2:first-child{
+    margin-top:0;
+  }
+
+
+  h3{
+    font-size: 19px;
+    clear:both;
+  }
+}
+
+.modal{
+  border-radius:0;
+  outline:none;
+
+  .modal-header{
+    border-bottom:0px;
+    padding:5px 10px;
+    
+    .close{
+      border:0px;
+      background-color: transparent;
+      float:right;
+      color:#d5d5d5;
+      padding:5px 10px;
+      margin-top:0;
+    }
+  }
+
+  .modal-footer{
+    background-color: #343434;
+    padding:0;
+    border-top:1px solid #212121;
+    border-radius:0;
+    box-shadow: none;
+
+    .btn + .btn{
+      margin:0;
+      box-shadow:inset 0 1px 0 #454545,
+        inset 1px 0px 0 #454545;
+
+    }
+
+    button{
+      border:none;
+      background-color: transparent;
+      color:#fff;
+      width:280px;
+      padding:10px 0;
+      float:left;
+      text-shadow:1px 1px 2px #000;
+
+      span{
+      }
+    }
+
+    button:hover{
+      box-shadow:inset 0 0 14px 1px #212121 !important;
+    }
+
+    button.button{
+      box-shadow:inset 0 1px 0 #454545;
+      border-right:1px solid #212121;
+    }
+  }
+}
+
+.index-view{
+  background: #fff;
+
+  .sidebar{
+    background-color: #292D33;
+    color:#E7E7E7;
+    padding:15px;
+    @include text-shadow(1px 1px 0px #000);
+
+    .filter-header{
+      background-color: #31353C;
+      margin: 0px -15px;
+      padding: 10px;
+    }
+
+    ul.filter{
+      padding:0;
+      margin-top: 10px;
+
+      li {
+        list-style-type: none;
+
+        a{
+          color:#E7E7E7;
+
+          &.selected{
+            color:$orange_reshulon;
+          }
+        }
+      }
+
+      &.filter-alphabetic{
+        li {
+          display:inline;
+        }
+      }
+    }
+  }
+
+  .pagination{
+    margin: 25px 0px 20px;
+    clear: both;
+    float: left;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.pagination ul{
+  @include box-shadow(none);
+  padding:0;
+  margin:0;
+}
+
+.sidebar-posts{
+  float:left;
+  clear:both;
+
+  .sidebar-post-item{
+    float:left;
+    clear:both;
+    padding:10px 0px;
+    background:url(border-item.png) repeat-x bottom;
+
+    .preview{
+      float:left;
+      img{
+        width:100px;
+        height: 70px;
+      }
+    }
+
+    .title{
+      float:left;
+      margin-left:10px;
+      width: 208px;
+      font-family: 'Coustard';
+      padding:5px 0px;
+    }
+    &:last-child{
+      background: none;
+    }
+  }
+}

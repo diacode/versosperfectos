@@ -1,0 +1,36 @@
+%h1 Índice de discos
+
+= form_tag admin_albums_path, :method => :get, :class => "form-search" do
+  .input-append
+    = text_field_tag "q", params[:q], :class => "span4 search-query"
+    %button.btn{:type => "submit"} Buscar
+  %div.advanced-search
+    %label
+      = check_box_tag "no_cover", true, params[:no_cover].present?
+      Sin Portada
+    %label
+      = check_box_tag "empty_tracklist", true, params[:empty_tracklist].present?
+      Sin tracklist 
+      %small
+        %em (consulta lenta)
+
+
+%table.table.table-striped.table-bordered.table-condensed
+  %tr
+    %th Autor
+    %th Título
+    %th Año
+    %th Formato
+    %th
+
+  - @albums.each do |album|
+    %tr
+      %td= album.artist.name
+      %td= link_to album.title, edit_admin_album_path(album)
+      %td= album.year
+      %td= album.format
+      %td= link_to 'Destroy', [:admin, album], :confirm => 'Are you sure?', :method => :delete
+
+= will_paginate @albums, :renderer => BootstrapPagination::Rails
+
+= link_to 'Nuevo disco', new_admin_album_path, :class => "btn btn-primary"

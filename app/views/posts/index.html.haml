@@ -1,0 +1,41 @@
+.left_col
+  .post-list-wrapper
+    %h2= posts_index_title
+
+    .post-list
+      - @posts.each do |p|
+        .post-summarized
+          .illustration.pull-left{style:"background-image: url(#{p.illustration})"}
+          .pull-left
+            .categories
+              - p.categories.each do |cat|
+                %span.category= cat.name
+
+            %h3.title= link_to p.title, post_extended_path(p.permalink_hash)
+            .meta.muted
+              %strong #{p.creator_effective_name}
+              |
+              = l p.published_at, format: :long
+            .comments-bubble
+              = link_to p.comments_count, post_extended_path(p.permalink_hash.merge(anchor: "comments"))
+            .clearfix
+            
+            .excerpt= raw sanitize(p.content, tags: []).truncate(300)
+          
+          .clearfix
+
+    = will_paginate(@posts, :renderer => BootstrapPagination::Rails, inner_window: 2, outer_window: 1)
+
+.right_col
+  .ad.ad_box_300= raw @ad_rectangle
+
+  %h2
+    %i.icon-folder-open
+    Categorías
+
+  %ul#categories
+    - @categories.each do |category|
+      %li{class: ('active' if params[:category_id].to_i == category.id)}
+        = link_to category.name, posts_path(category_id: category.id)
+
+  = render "top_posts_sidebar"

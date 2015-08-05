@@ -1,0 +1,33 @@
+%p#notice= notice
+
+%p
+  %b Artist:
+  = @album.artist_id
+%p
+  %b Title:
+  = @album.title
+%p
+  %b Year:
+  = @album.year
+%p
+  %b Release date:
+  = @album.release_date
+%p
+  %b Format:
+  = @album.format
+%p
+  %b Demo:
+  = @album.demo
+%p
+  %b Info:
+  = @album.info
+%p
+  %b Record label:
+  = @album.record_label_id
+%p
+  %b Spotify identifier:
+  = @album.spotify_identifier
+
+= link_to 'Edit', edit_admin_album_path(@album)
+\|
+= link_to 'Back', albums_path

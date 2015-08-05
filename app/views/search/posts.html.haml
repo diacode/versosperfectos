@@ -1,0 +1,27 @@
+#search_page.regular_view
+  .row-fluid
+    .span8
+      %h1 Búsqueda
+
+      = form_tag "/search/posts", method: 'get', id: 'search' do |f|
+        .input-append
+          = text_field_tag "q", params[:q], class: 'input-xxlarge'
+          %button.btn{type:'submit'}
+            %i.icon-search
+            Buscar
+
+      #results
+        - if @results.any?
+          - @results.with_details.each do |res, details|
+            .search-result
+              .meta.muted= l res.published_at.to_date, format: :long
+
+              %h3.title= link_to((raw details[:highlight][:title] || res.title), post_extended_path(res.permalink_hash))
+              
+              .content= raw(details[:highlight][:content] || sanitize(res.content, tags: []).truncate(300))
+
+
+      = will_paginate @results, renderer: BootstrapPagination::Rails
+    .span4
+      .ad_box_300= raw @ad_rectangle
+      

@@ -1,0 +1,321 @@
+// Place all the styles related to the artists controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#artist_index{
+  form#search_artist{
+    margin-bottom:10px;
+  }
+
+  #artist_list{
+    margin:20px 0px;
+
+    .artist-item{
+      float:left;
+      clear:both;
+      width:100%;
+      border-bottom:1px solid #eee;
+      padding:10px 0px;
+
+      .portrait{
+        width:100px;
+        float:left;
+        margin-left:10px;
+        border:1px solid #eee;
+      }
+
+      .info{
+        float:left;
+        margin-left:10px;
+        width:625px;
+
+        .name{
+          margin:5px 0px;
+          font-weight: bold;
+          font-size:20px;
+        }
+      }
+
+      &:nth-child(odd){
+        border-top:1px solid #fff;
+        background-color: #F7F7F7;
+      }
+    }
+  }
+}
+
+.poster_wrapper{
+  position:relative;
+
+  .posters{
+    width:100%;
+    height: 575px;
+    position:relative;
+
+    .poster{
+      width:100%;
+      height: 575px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      display: block;
+      opacity: 0;
+      position:absolute;
+      top:0;
+      left:0;
+      @include transition(opacity 1s ease-out);
+
+
+      &.visible{
+        opacity:1;
+      }
+    }
+
+    &.empty{
+      height: 94px;
+    }
+  }
+
+  .scroller{
+    position: absolute;
+    right:20px;
+    top:20px;
+    opacity:0; // Lo ocultamos hasta que quede implementado
+
+    i{
+      margin-left:5px;
+    }
+  }
+
+  .overlay{
+    position: absolute;
+    // height: 130px;
+    background: rgba(0,0,0, 0.7);
+    bottom:0px;
+    left:0px;
+    width: 100%;
+    color:#fff;
+
+    .portrait{
+      width:70px;
+      margin:12px;
+      float:left;
+    }
+
+    h1{
+      font-family: 'Coustard';
+      font-weight: normal;
+      font-size:40px;
+      margin:25px 5px 15px;
+    }
+
+    h1 a:hover,
+    .meta a:hover{
+      text-decoration: none;
+      color: $orange_reshulon;
+    }
+
+    .meta{
+      font-size:14px;
+      margin:0 5px;
+      width:780px;
+
+      i {
+        margin-right: 5px;
+      }
+
+      span {
+        margin-right:10px;
+      }
+
+      a{
+        border-bottom:1px dotted #fff;
+      }
+
+      a:hover{
+        text-decoration: none;
+        border-color:$orange_reshulon;
+      }
+    }
+
+    a{
+      color:#fff;
+    }
+
+
+    #fav_artist{
+      cursor:pointer;
+      &.liked{
+        color:#ff0000;
+      }
+      &:hover{
+        text-decoration: none;
+      }
+    } 
+
+    .counter{
+      margin:25px 22px 22px;
+      text-align: center;
+      
+      .icon_space{
+        float: left;
+        font-size: 45px;
+        margin:0px 10px 10px 0px;
+      }
+
+      .counter_text_space{
+        float:right;
+        .quantity{
+          font-size:35px;
+          margin-bottom:15px;
+        }
+
+        .title{
+          font-size:18px;
+        }
+      }
+    }
+  }
+}
+
+#artist_record{
+  .sidebar{
+    .ad_box_300{
+      margin:0 auto 30px;
+    }
+
+
+    .sidebar-post-item .title{
+      width: 195px;
+    }
+  }
+
+  h3{
+    text-transform: uppercase;
+    text-align: center;
+  }
+}
+
+#discography{
+  float:left;
+  clear:both;
+  margin-bottom:30px;
+}
+
+#discography_header{
+  margin-top:30px;
+}
+
+#discography{
+  .album{
+    float:left;
+    position:relative;
+    margin:0px 8px 20px 0px;
+    width:150px;
+    overflow: hidden;
+
+    .cover{
+      img{
+        width:150px;
+        height:150px;
+      }
+    }
+
+    .title{
+      width:100%;
+      text-align: center;
+      margin-top:5px;
+
+      a{
+        width:100%;
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+
+    .year{
+      text-align: center;
+    }
+  }
+}
+
+#biography{
+}
+
+#biography + .readmore-js-toggle{
+  margin-top:1em;
+}
+
+#members{
+  color:#999;
+  clear:both;
+  text-align: center;
+
+  .member{
+    display:inline-block;
+    margin:0px 15px 15px 0px;
+    overflow: hidden;
+    width:107px;
+
+    img.artist {
+      //float:left;
+      width: 105px;
+      border:1px solid #ddd;
+    }
+
+    .artist_name, .types{
+      padding:3px 0px;
+      text-align: center;
+    }
+
+    .artist_name{
+      width:100%;
+
+      a{
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+#collabos{
+  clear:both;
+
+  table{
+    tr.collabo{
+      td{
+        vertical-align: top;
+        background: url(border-item.png) repeat-x bottom;
+        padding:3px 0px;
+
+        &.cover{
+          img{
+            width: 85px;
+          }
+        }
+        &.album{
+          padding:3px;
+          .author, .title{
+            display:block;
+          }
+
+          .author{
+            color:#777;
+          }
+          .title{
+          }
+        }
+        &.song{
+          padding:3px;
+          a { display: block; }
+        }
+      }
+    }
+  }
+
+  .pagination { text-align: center; }
+}

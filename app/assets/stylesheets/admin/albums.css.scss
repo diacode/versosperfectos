@@ -1,0 +1,107 @@
+#tracklist_button_bar{
+  margin-bottom:18px;
+  text-align:right;
+}
+
+table#tracklist{
+  thead tr{
+    th.check{
+      width:20px;
+      text-align: center;
+    }
+
+    th.song_id{
+      width:60px;
+    }
+
+    th.number_track{
+      width:70px;
+    }
+
+    th.song_title{
+      // width:500px;
+    }
+
+    th.action{
+      width:50px;
+    }
+  }
+
+  tbody tr td {
+    &.check{ text-align: center; }
+
+    vertical-align:middle;
+
+    input{
+      margin-bottom:0px !important;
+    }
+
+    .btn-remove-song{
+      width:100% !important;
+    }
+  }
+
+  tbody tr.new td,
+  tbody tr.existing td{
+    background-color:#eee;
+  }
+
+}
+
+#song_search{
+  display:none;
+}
+
+body[data-controller="albums"][data-action="edit"],
+body[data-controller="albums"][data-action="new"]{
+  .popover-inner{
+    width:390px;
+  }
+  .popover-content{
+    padding:0px 0px 14px;
+
+    form{
+      padding:14px;
+    }
+  }
+}
+
+#song_search_form{
+  margin-bottom:0px;
+}
+
+.song_search_results{
+
+  .result{
+    padding:15px;
+    border-top:1px solid #ddd;
+    cursor:pointer;
+  }
+
+  .result:hover{
+    background-color:#eee;
+  }
+
+  p.no_results{
+    color: #999999;
+    text-align:center;
+    padding:7px;
+    font-style:italic;
+  }
+}
+
+.song_search_results.loading{
+  min-height:40px;
+  background:url(ajax-loader.gif) center center no-repeat;
+}
+
+p#status_tracklist{
+  color:#999;
+  margin-top: 3px;
+  font-style: italic;
+}
+
+label[for="album_demo"]{
+  margin-bottom: 12px !important;
+  margin-left: 15px;
+}

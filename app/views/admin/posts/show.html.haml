@@ -1,0 +1,14 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @post.title
+  - if @post.draft
+    %span.label.label-info Borrador
+%p
+  %b Content:
+  = raw @post.content
+
+= link_to 'Edit', edit_admin_post_path(@post)
+\|
+= link_to 'Back', admin_posts_path

@@ -1,0 +1,21 @@
+- content_for :title do 
+  VP | Punchlines
+
+#punchlines_index
+  #last_punchlines
+    .container
+      %h2 Lo último
+      
+      - @newest.each do |pl|
+        = render "index_item", pl: pl
+
+      %p= link_to "Ver todo »", list_punchlines_path(order: 'newest'), class: 'btn'
+
+  #popular_punchlines
+    .container
+      %h2 Lo más popular
+
+      - @most_popular.each do |pl|
+        = render "index_item", pl: pl
+
+      %p= link_to "Ver todo »", list_punchlines_path(order: 'popular'), class: 'btn'

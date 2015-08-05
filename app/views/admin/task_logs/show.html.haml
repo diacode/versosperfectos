@@ -1,0 +1,41 @@
+%h1 Detalle de log
+
+%ul.unstyled.inline
+  %li
+    %i.icon.icon-calendar
+    = l @log.created_at, format: :long
+  %li
+    %strong Tipo:
+    = @log.purpose
+
+  %li
+    %strong Estado:
+    - if @log.successful?
+      %span.label.label-success 
+        %i.icon.icon-ok-sign
+        Correcto
+    - else
+      %span.label.label-important 
+        %i.icon.icon-remove-sign
+        Error
+
+
+.tabbable{style: 'margin-top: 25px;'}
+  %ul.nav.nav-tabs
+    %li.active
+      =link_to "Salida", "#output", :data => {:toggle => "tab"}
+    %li
+      =link_to "Error", "#error", :data => {:toggle => "tab"}
+  
+  .tab-content
+    #output.tab-pane.active
+      - if !@log.stdout.blank?
+        %pre= @log.stdout
+      - else
+        %p.muted No se registró ninguna salida.
+    
+    #error.tab-pane
+      - if !@log.stderr.blank?
+        %pre= @log.stderr
+      - else
+        %p.muted No se registró ninguna salida.

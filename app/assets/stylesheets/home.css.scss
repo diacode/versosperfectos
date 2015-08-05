@@ -1,0 +1,198 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "featured";
+
+.posts-block{
+  margin: 20px;
+
+  .posts{
+    .post{
+      padding:0px;
+
+      .categories{
+        background-color:#000;
+        color:#fff;
+        font-weight:bold;
+        font-style:italic;
+        padding:2px 10px;
+        text-transform:uppercase;
+        font-size:11px;
+        display:inline-block;
+      }
+
+      .title h3{
+        font-family: 'PT Sans', serif;
+        font-weight:normal;
+        margin:0px;
+        font-size:23px;
+        font-weight: 400;
+        line-height:25px;
+      }
+
+      .title {
+        margin-top:15px;
+      }
+
+      .meta{
+        font-size:11px;
+        float:left;
+      }
+
+      .comments-bubble{
+        float:right;
+        margin-top:-3px;
+        
+        a{
+          background-color: lighten($orange_reshulon, 10%);
+          font-size: 10px;
+          font-weight: bold;
+          color: #fff;  
+          padding:3px 6px;   
+          position:relative; 
+        }
+
+        a:after{
+          content: "";
+          position: absolute !important;
+          bottom: -5px;
+          z-index: 100;
+          border: 0 solid lighten($orange_reshulon, 10%);
+          border-bottom: 7px solid transparent;
+          width: 100%;
+          border-right-width: 7px;
+          border-left-width: 0;
+          right: 2px;
+        }
+
+        a:hover{ text-decoration: none; }
+      }
+
+      .picture{
+        height:175px;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        margin:10px 0px;
+      }
+
+      .content{
+        margin-bottom:15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  #other_stuff{
+    h2{
+      padding:2px 5px;
+      border-bottom:3px solid $orange_reshulon;
+    }
+
+    #incoming_releases, #last_lyrics, #active_people{
+      padding: 0px 5px;
+      margin-bottom:20px;
+    }
+
+    #incoming_releases{
+      .incoming-release{
+        margin-bottom:10px;
+
+        .cover{
+          width:75px;
+          margin-right:10px;
+        }
+
+        .info{
+          width:215px;
+        }
+      }
+    }
+
+    #last_lyrics{
+      .lyric{
+        margin-bottom:10px;        
+        border-bottom: 1px dotted #ddd;
+        padding-bottom: 5px;
+
+        .meta{ font-size: 11px; }
+      }
+    }
+
+    #active_people{
+      .active-person{
+        margin-bottom:10px;
+        
+        img{
+          width: 60px;
+          margin-right: 10px;
+        } 
+      }
+    }
+  }
+}
+
+#last_reviews{
+  background-color:#000;  
+  color:#fff;
+  padding:30px;
+
+  .review{
+    position:relative;
+    display:block;
+
+    .cover{
+      width:307px;
+      height: 307px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 307px 307px;
+    }
+
+    .meta{
+      color:#000;
+      width: 100%;
+      padding: 8px;
+      border-top: 3px solid #fd8411;
+      background: white;
+      @include box-sizing(border-box);
+
+      .author-avatar{
+        width:50px;
+        margin-right:10px;
+      }
+
+      .author-sign{
+        margin:5px 0px;
+        width: 170px;
+      }
+
+      .rating {
+        font-size: 35px;
+        line-height: normal;
+        font-weight: bold;
+        margin: 7px 0px;
+      }
+    }
+  }
+}
+
+
+#last_punchlines{
+  background-color:#e9a24d;
+  color:#fff;
+  padding:30px;
+  height:265px;
+
+  .punchline{
+    position:relative;
+    img{
+      position:absolute;
+      top:0;
+      left:0;
+    }
+  }
+}

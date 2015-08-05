@@ -1,0 +1,17 @@
+%h1 Logs de tareas del sistema
+
+%table.table.table-bordered
+  %thead
+    %tr
+      %th Id.
+      %th Fecha
+      %th Tipo
+      %th Éxito
+
+  %tbody
+    - @logs.each do |log|
+      %tr{class: (log.successful? ? "success" : "error")}
+        %td= link_to "##{log.id}", admin_task_log_path(log)
+        %td= l log.created_at, format: :long
+        %td= log.purpose
+        %td= log.successful? ? "Sí" : "No"

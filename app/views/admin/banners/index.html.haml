@@ -1,0 +1,18 @@
+%h1 Banners
+
+%table.table.table-striped.table-bordered.table-condensed
+  %thead
+    %tr
+      %th Nombre
+      %th
+      %th
+
+  - @banners.each do |banner|
+    %tr
+      %td= banner.name
+      %td= link_to 'Edit', edit_admin_banner_path(banner)
+      %td= link_to 'Destroy', [:admin, banner], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'Nuevo banner', new_admin_banner_path, class: 'btn btn-primary'

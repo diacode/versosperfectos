@@ -1,0 +1,63 @@
+= form_for [:admin, @song], :class => "form_song" do |f|
+  -if @song.errors.any?
+    #error_explanation
+      %div{:class => "alert alert-error"}
+        %a.close{"data-dismiss" => "alert"} ×
+
+        %h2= "#{pluralize(@song.errors.count, "error")} prohibited this admin_song from being saved:"
+        %ul
+          - @song.errors.full_messages.each do |msg|
+            %li= msg
+
+  .row
+    .span4
+      .field
+        = f.label :title, "Título"
+        = f.text_field :title
+
+      .field
+        = f.label :video_link, "Enlace video"
+        = f.text_field :video_link
+
+      .field
+        = f.label :video_embed_code, "Embed video"
+        = f.text_area :video_embed_code, rows: 10
+
+      .field
+        = f.label :audio_link, "Enlace audio"
+        = f.text_field :audio_link, placeholder: 'De momento solo YouTube'
+
+    .span8
+      .field
+        %h4 Colabos
+        %table#colabos.table.table-bordered.table-condensed
+          %thead
+            %tr
+              %th Artista
+              %th.center Mic
+              %th.center Prod
+              %th.center DJ
+              %th.center Director
+              %th.center Colabo
+              %th.action &nbsp;
+          %tbody
+            = f.fields_for :featurings do |feat|
+              = render "featuring_fields", f: feat
+
+        = link_to_add_association f, :featurings, class: 'btn btn-primary', data: {association_insertion_node: "#colabos tbody", association_insertion_method: "append"} do 
+          %i.icon-plus
+          Agregar colabo
+
+
+      .field
+        %h4 Letra
+        = f.text_area :lyrics
+
+        %p.muted - Fecha de la letra: #{@song.lyrics_date}
+
+  .row
+    .span12
+      .form-actions
+        = f.submit 'Guardar', :class => "btn btn-primary"
+        = link_to 'Cancelar', "javascript:history.back()", :class => "btn"
+        = link_to 'Borrar esta canción', [:admin, @song], :confirm => '¿Estás seguro?', :method => :delete, :class => "btn btn-danger"

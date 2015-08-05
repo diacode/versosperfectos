@@ -1,0 +1,333 @@
+= form_for [:admin, @artist], class: "form_artist" do |f|
+  - if @artist.id
+    = hidden_field_tag :artist_id, @artist.id
+
+  -if @artist.errors.any?
+    #error_explanation
+      %div{class: "alert alert-error"}
+        %a.close{"data-dismiss" => "alert"} ×
+
+        %h2= "#{pluralize(@artist.errors.count, "error")} prohibited this admin_artist from being saved:"
+        %ul
+          - @artist.errors.full_messages.each do |msg|
+            %li= msg
+
+  .tabbable
+    %ul.nav.nav-tabs
+      %li.active
+        =link_to "Detalles", "#tab1", data: {toggle: "tab"}
+      %li#tab_groups
+        =link_to "Grupos", "#tab2", data: {toggle: "tab"}
+      %li#tab_members
+        =link_to "Miembros", "#tab3", data: {toggle: "tab"}
+      %li
+        =link_to "Discografía", "#tab4", data: {toggle: "tab"}
+      %li
+        =link_to "Colabos", "#tab5", data: {toggle: "tab"}
+      %li
+        =link_to "Inéditos", "#tab6", data: {toggle: "tab"}
+      %li
+        =link_to "Galería", "#tab7", data: {toggle: "tab"}
+      %li
+        =link_to "Alias", "#tab8", data: {toggle: 'tab'}
+    
+    .tab-content
+      #tab1.tab-pane.active
+        .row
+          .span5
+            %h3 Datos personales
+
+            .field
+              = f.label :name, "Nombre"
+              = f.text_field :name
+            .field
+              = f.label :real_name, "Nombre real"
+              = f.text_field :real_name, class: "input-xlarge"
+
+            .row-fluid
+              .span5
+                .field
+                  = f.label :birth_date, "Fecha de nacimiento"
+                  .input-prepend
+                    %span.add-on 
+                      %i.icon-calendar
+                    = f.text_field :birth_date, 
+                      value: (@artist.birth_date.strftime("%d/%m/%Y") if !@artist.birth_date.nil?), 
+                      class: "datepicker input-small"  
+
+              .span7
+                .field
+                  = f.label :death_date, "Fallecimiento"
+                  .input-prepend
+                    %span.add-on 
+                      %i.icon-calendar
+                    = f.text_field :death_date, 
+                      value: (@artist.death_date.strftime("%d/%m/%Y") if !@artist.death_date.nil?), 
+                      class: "datepicker input-small"  
+
+            %h3 Tipo
+
+            .field
+              = f.label :international, class: "checkbox inline" do
+                = f.check_box :international
+                Internacional
+
+              = f.label :group, class: "checkbox inline" do
+                = f.check_box :group
+                Grupo
+
+              = f.label :dissolved, class: "checkbox inline" do
+                = f.check_box :dissolved
+                Disuelto
+
+            %h3 Especialidad
+
+            .field
+              = f.label :mc, class: "checkbox inline" do
+                = f.check_box :mc
+                MC
+
+              = f.label :producer, class: "checkbox inline" do
+                = f.check_box :producer
+                Productor
+
+              = f.label :dj, class: "checkbox inline" do
+                = f.check_box :dj
+                DJ
+
+              = f.label :clip_director, class: "checkbox inline" do
+                = f.check_box :clip_director
+                Director clips
+
+            %h3 Social
+
+            .field
+              = f.label :web, "Web URL"
+              .input-prepend
+                %span.add-on
+                  %i.icon-globe
+                = f.text_field :web, class: "input-xlarge"
+            
+            .field
+              = f.label :twitter, "Twitter account"
+              .input-prepend
+                %span.add-on @
+                = f.text_field :twitter, class: "input-xlarge"
+            
+            .field
+              = f.label :facebook_url, "Facebook URL"
+              .input-prepend
+                %span.add-on
+                  %i.icon-facebook
+                = f.text_field :facebook_url, class: "input-xlarge"
+
+            .field
+              = f.label :myspace              
+              .input-prepend
+                %span.add-on
+                  %i.icon-group
+                = f.text_field :myspace, class: "input-xlarge"
+
+            .field
+              = f.label :soundcloud, "SoundCloud account"
+              .input-prepend
+                %span.add-on
+                  %i.icon-cloud
+                = f.text_field :soundcloud, class: "input-xlarge"
+
+
+            .field
+              / = f.label :birth_place_id
+              / = f.number_field :birth_place_id
+
+          .span7
+            .field
+              = f.label :portrait, "Retrato"
+
+              - if @artist.portrait?
+                = image_tag(@artist.portrait_url) if @artist.portrait?
+                .div
+                  = f.label :remove_portrait, class: "checkbox inline" do
+                    = f.check_box :remove_portrait
+                    Borrar portada
+
+              = f.file_field :portrait
+              = f.text_field :remote_portrait_url, placeholder: "URL de la imagen", class: "input-xlarge"
+
+            .field
+              = f.label :bio
+              = f.text_area :bio, class: 'redactor'
+            .field
+              = f.label :management_id
+              = f.number_field :management_id
+
+      #tab2.tab-pane
+        .row
+          .span8
+            %p#num_groups_related
+              Este artista pertenece a 
+              %strong
+                #{@artist.groups.size} 
+              grupos.
+          .span4
+            .artists_button_bar
+              %button#add_related_group.btn.btn-primary{type: :button}
+                %i.icon-plus.icon-white
+                Agregar a grupo
+
+        .row
+          .span12
+            %table#related_groups.table.table-bordered.table-condensed      
+              %thead
+                %tr
+                  %th.artist_id Id.
+                  %th.artist_name Nombre
+                  %th.action
+              
+              %tbody
+                - @artist.groups.each do |m|
+                  %tr{data: {artist_id: m.id} }
+                    %td= text_field_tag "artist[group_ids][]", m.id, class: "input-mini", readonly: true
+                    %td= m.name
+                    %td
+                      %button.btn.btn-small.btn-danger.btn-remove-artist-related{type: :button}
+                        Quitar
+
+      #tab3.tab-pane
+        .row
+          .span8
+            %p#num_members_related
+              Este grupo está integrado por 
+              %strong
+                #{@artist.members.size} 
+              miembros.
+
+          .span4
+            .artists_button_bar
+              %button#add_related_member.btn.btn-primary{type: :button}
+                %i.icon-plus.icon-white
+                Agregar miembro
+        .row
+          .span12
+            %table#related_members.table.table-bordered.table-condensed      
+              %thead
+                %tr
+                  %th.artist_id Id.
+                  %th.artist_name Nombre
+                  %th.action
+              
+              %tbody
+                - @artist.members.each do |m|
+                  %tr{data: {artist_id: m.id} }
+                    %td= text_field_tag "artist[member_ids][]", m.id, class: "input-mini", readonly: true
+                    %td= m.name
+                    %td
+                      %button.btn.btn-small.btn-danger.btn-remove-artist-related{type: :button}
+                        Quitar
+
+      #tab4.tab-pane
+        .row
+          .span12
+            %table.table.table-bordered.table-condensed    
+              %thead
+                %tr
+                  %th Id.
+                  %th Disco
+                  %th Lanzamiento
+              
+              %tbody
+                - @artist.albums.each do |alb|
+                  %tr
+                    %td= alb.id
+                    %td= link_to "#{alb.effective_artist_name} - #{alb.title} (#{alb.year})", edit_admin_album_path(alb) 
+                    %td
+                      -if alb.release_date
+                        =l(alb.release_date, format: :default) 
+                      -else
+                        %span.undetermined_date Sin determinar
+
+            %p.released_albums 
+              %strong= @artist.albums.size
+              discos editados.
+
+      #tab5.tab-pane
+        .row
+          .span12
+
+      #tab6.tab-pane
+        .row
+          .span8
+            %p#num_songs_unreleased
+              Este artista tiene  
+              %strong
+                #{@artist.unreleased_songs.size} 
+              canciones inéditas.
+          .span4
+            .artists_button_bar
+              %button#add_unreleased_song.btn.btn-primary{type: :button}
+                %i.icon-plus.icon-white
+                Agregar inédito
+
+        .row
+          .span12
+            %table#unreleased.table.table-bordered.table-condensed    
+              %thead
+                %tr
+                  %th.song_id Id.
+                  %th Título
+                  %th 
+              
+              %tbody
+                = f.fields_for :unreleased_songs do |f_unr|
+                  %tr
+                    %td= f_unr.text_field :id, readonly: true, class: "input-mini song_id_input"
+                    %td= link_to f_unr.object.title, "#" 
+                    %td &nbsp;
+
+      #tab7.tab-pane
+        #gallery_uploader
+
+        #gallery
+          - @artist.pictures.each do |pic|
+            = image_tag pic.image_url(:square)
+
+      #tab8.tab-pane
+        .row
+          .span8
+          .span4
+            .artists_button_bar
+              = link_to_add_association f, :aliases, class: 'btn btn-primary', force_non_association_create: true, data: {association_insertion_node: "#aliases tbody", association_insertion_method: "append"} do
+                %i.icon-plus
+                Agregar alias
+
+        .row
+          .span12
+            %table#aliases.table.table-bordered.table-condensed    
+              %thead
+                %tr
+                  %th.alias_id Id.
+                  %th Alias
+                  %th.action &nbsp; 
+              
+              %tbody
+                = f.fields_for :aliases do |f_alias|
+                  = render 'alias_fields', f: f_alias
+
+  .row
+    .span12
+      .form-actions
+        = f.submit 'Guardar', class: "btn btn-primary"
+        = link_to 'Cancelar', admin_artists_path, class: "btn"
+        = link_to 'Borrar este artista', [:admin, @artist], confirm: '¿Estás seguro?', method: :delete, class: "btn btn-danger"
+
+#artist_search.modal
+  .modal-header
+    Búsqueda de artista
+
+  .modal-body
+    = form_tag("/admin/artists", id: "artist_search_form", class: "form-inline") do |form_search|
+      = text_field_tag :artist_search_name, nil, placeholder: "Nombre", class: "input-large artist_search_name"
+      %button.btn.btn-small.btn-primary
+        %i.icon-search.icon-white
+
+    .artist_search_results

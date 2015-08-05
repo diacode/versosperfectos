@@ -1,0 +1,93 @@
+= form_for [:admin, @punchline] do |f|
+  = hidden_field_tag "punchline_id", @punchline.id
+
+  .tabbable
+    %ul.nav.nav-tabs
+      %li.active
+        =link_to "Detalles", "#tab1", :data => {:toggle => "tab"}
+      %li
+        =link_to "Tracklist", "#tab2", :data => {:toggle => "tab"}
+      %li
+        =link_to "Artwork", "#tab3", :data => {:toggle => "tab"}
+      %li
+        =link_to "Paquete", "#tab4", :data => {:toggle => "tab"}
+
+    .tab-content
+      #tab1.tab-pane.active
+        .row-fluid
+          .span4
+            .field
+              = f.label :online, :class => "checkbox inline" do
+                = f.check_box :online
+                Online
+
+            .field              
+              = f.label :published_at, "Fecha de lanzamiento"
+              = f.text_field :published_at, 
+                :value => (@punchline.published_at.strftime("%d/%m/%Y") if !@punchline.published_at.nil?), 
+                :class => "datepicker input-small"
+
+            .field
+              = f.label :lead_in, 'Entradilla'
+              = f.text_area :lead_in
+
+          .span8
+            .field
+              = f.label :description, 'Descripción'
+              = f.text_area :description, class: 'redactor'
+
+      #tab2.tab-pane
+        #punchline_upload
+
+        %table#punchline_tracklist.table.table-bordered.table-condensed      
+          %thead
+            %tr
+              %th.number_track Núm.
+              %th.song_title Título
+              %th.downloads Descargas
+              %th.uploaded Subida
+              %th.actions
+
+          %tbody
+            - @punchline.album.tracks.each do |track|
+              - sf = @punchline.song_files.where(song_id: track.song_id).first
+
+              %tr{data:{song_id: track.song_id, song_file_id: (sf.id if sf)}}
+                %td= track.track_number
+                %td= link_to track.song.title, edit_admin_song_path(track.song_id)
+                - if sf.nil?
+                  %td.num-downloads N/D
+                  %td.download-available No
+                  %td &nbsp;
+
+                - else
+                  %td.num-downloads= sf.downloads
+                  %td.download-available Sí
+                  %td= link_to "Borrar adjunto", destroy_song_file_admin_punchline_path(id: @punchline.id, song_file_id: sf.id), method: :delete, remote: true, class: 'btn btn-danger btn-mini delete-song-file', data: {type: 'json'}, confirm: '¿Estás seguro?'
+      #tab3.tab-pane
+        #artwork_upload
+        %table#artworks.table.table-bordered
+          %thead
+            %tr
+              %th.col-thumb Miniatura
+              %th Nombre archivo
+              %th.action &nbsp;
+          %tbody
+            - @punchline.artworks.each do |artwork|
+              %tr.artwork
+                %td.col-thumb= image_tag artwork.art_url
+                %td= artwork.title
+                %td= link_to "Borrar", destroy_artwork_admin_punchline_path(id: @punchline.id, artwork_id: artwork.id), method: :delete, class: 'btn btn-danger'
+
+      #tab4.tab-pane
+        .package-status
+        .package-link
+          - if @punchline.package_available?
+            = link_to "Descargar", @punchline.package_url, class: 'btn'
+
+        = link_to "Generar", generate_package_admin_punchline_path(@punchline.id), method: :post, remote: true, confirm: '¿Estás seguro?', id: "generate_package", class: 'btn btn-success', disabled: !@package_generation_available
+  .row
+    .span12
+      .form-actions
+        = f.submit 'Guardar', :class => "btn btn-primary"
+        = link_to 'Cancelar', admin_punchlines_path, :class => "btn"

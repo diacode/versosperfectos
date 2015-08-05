@@ -1,0 +1,74 @@
+- content_for :title do
+  Listado de artistas
+
+#artist_index.index-view
+  .row-fluid
+    .span3
+      .sidebar
+        = form_tag artists_path, :method => :get, :id => "search_artist" do
+          .input-append
+            = text_field_tag :q, params[:q], :class => "span10"
+            %button.btn
+              %i.icon.icon-white.icon-search
+
+        %h3.filter-header Filtrar por letra
+        %ul.filter.filter-alphabetic
+          - ('A'..'Z').each do |letra|
+            %li= link_to letra, artists_url(@filter_params.merge(:initial => letra)), 
+                    :class => ("selected" if @filter_params[:initial] == letra)
+
+          %li= link_to "#", artists_url(@filter_params.merge(:initial => "#")), :class => ("selected" if @filter_params[:initial] == "#")
+
+        %h3.filter-header Filtrar por rol
+
+        %ul.filter
+          %li
+            = link_to "Indiferente", artists_url(@filter_params), 
+                :class => ("selected" if @filter_params[:role].nil?)
+          %li
+            = link_to "MCs", artists_url(@filter_params.merge(:role => "mc")), 
+                :class => ("selected" if @filter_params[:role] == "mc")
+          %li
+            = link_to "Productores", artists_url(@filter_params.merge(:role => "producer")), 
+                :class => ("selected" if @filter_params[:role] == "producer")
+          %li
+            = link_to "DJs", artists_url(@filter_params.merge(:role => "dj")), 
+                :class => ("selected" if @filter_params[:role] == "dj")              
+          %li
+            = link_to "Directores", artists_url(@filter_params.merge(:role => "director")),
+                :class => ("selected" if @filter_params[:role] == "director")
+
+        %h3.filter-header Filtrar por tipo
+
+        %ul.filter
+          %li
+            = link_to "Indiferente", artists_url(@filter_params.except(:group)), :class => ("selected" if @filter_params[:group].nil?)
+          %li
+            = link_to "Solitario", artists_url(@filter_params.merge(:group => 0)), :class => ("selected" if @filter_params[:group] == "0")
+          %li
+            = link_to "Grupos", artists_url(@filter_params.merge(:group => 1)), :class => ("selected" if @filter_params[:group] == "1")
+
+        %h3.filter-header Filtrar por procedencia
+
+        %ul.filter
+          %li
+            = link_to "Indiferente", artists_url(@filter_params.except(:international)), :class => ("selected" if @filter_params[:international].nil?)
+          %li
+            = link_to "Nacional", artists_url(@filter_params.merge(:international => 0)), :class => ("selected" if @filter_params[:international] == "0")
+          %li
+            = link_to "Internacional", artists_url(@filter_params.merge(:international => 1)), :class => ("selected" if @filter_params[:international] == "1")
+
+    .span9
+      #artist_list
+        %h1 Listado de artistas
+
+        - if @artists.any?
+          - @artists.each do |art|
+            .artist-item
+              = image_tag art.portrait_url(:square), :class => "portrait"
+              .info
+                %h2.name= link_to art.name, artist_url(art)
+
+          = will_paginate @artists, renderer: BootstrapPagination::Rails
+        - else
+          %p.muted No se encontraron resultados.

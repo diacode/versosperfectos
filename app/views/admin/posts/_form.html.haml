@@ -1,0 +1,102 @@
+= form_for [:admin, @post], html: {id: "form_post"} do |f|
+  -if @post.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this admin_post from being saved:"
+      %ul
+        - @post.errors.full_messages.each do |msg|
+          %li= msg
+
+  .row
+    .span9
+      = f.check_box :draft
+
+      .field
+        = f.label :title, "Título"
+        = f.text_field :title, :class => "input-xxlarge"
+
+      .field
+        = f.label :content, "Contenido"
+        = f.text_area :content, class: 'redactor'
+
+      .field{style: 'text-align:right;'}
+        = link_to "#post_search", data: {toggle: 'modal'}, class: 'btn btn-small' do
+          %i.icon-search
+          Buscar noticia relacionada
+
+      .field
+        = f.label :tags
+        = f.hidden_field(:tag_list, {:value => @post.tag_list.join(","), :style => "width:600px;"})
+
+      .field
+        %h2 Social
+
+        %p Postear en las siguientes redes sociales:
+        
+        %div
+          %button#toggle_publish_twitter.btn{type:'button', data:{toggle:'button'}} 
+            %i.icon-twitter
+            Twitter
+
+          %button#toggle_publish_facebook.btn{type:'button', data:{toggle:'button'}}
+            %i.icon-facebook
+            Facebook
+
+          = f.check_box :flag_twitter        
+          = f.check_box :flag_facebook        
+
+        %div
+          .twitter-message-wrapper
+            = f.text_area :twitter_message
+            %div
+              = text_field_tag :twitter_lookup, '', placeholder: 'Artista' 
+              %button#btn_twitter_lookup.btn.btn-primary{type: 'button'} 
+                %i.icon-search
+                Buscar cuenta
+              %span#twitter_lookup_status
+
+    .span3
+      .field
+        = f.label :published_at, 'Fecha publicación'
+        = f.text_field :published_at_date, class: 'datepicker', size: 10, maxlength: 10, placeholder: 'Fecha'
+        = f.text_field :published_at_time, size: 5, maxlength: 5, placeholder: 'Hora'
+
+      .field 
+        %h2 Categorías
+        %ul#categories
+          - @categories.each do |cat|
+            %li
+              = check_box_tag "post[category_ids][]", cat.id, @post.category_ids.include?(cat.id)
+              = cat.name
+
+  .row
+    .span12
+      .form-actions
+        - if !@post.draft and @post.persisted?
+          = f.submit 'Guardar', :class => "btn btn-success"
+        - else
+          = f.button 'Publicar', :class => "btn btn-success", id: "post_publish"
+
+        = f.button 'Guardar como borrador', class: 'btn btn-primary', id: "post_save_as_draft"
+        = link_to 'Cancelar', admin_posts_path, :class => "btn"
+        = link_to 'Borrar', [:admin, @post], :confirm => '¿Estás seguro?', :method => :delete, :class => "btn btn-danger"
+
+#post_search.modal.hide
+  .modal-header
+    Búsqueda de noticias
+
+  .modal-body
+    = form_tag("/admin/posts/search", :id => "post_search_form", :class => "form-horizontal post-search") do |form_search|
+      .field
+        = text_field_tag :q, '', placeholder: 'Cadena de búsqueda'
+      .field
+        = text_field_tag :tags, '', placeholder: 'Tag'
+      
+      %button.btn.btn-primary
+        %i.icon-search.icon-white
+
+    %table.table.table-condensed.table-bordered.post_search_results
+      %thead
+        %th Id.
+        %th Título
+        %th &nbsp;
+      %tbody

@@ -1,0 +1,12 @@
+- content_for :title do 
+  VP | Punchlines | #{@header_title}
+
+#punchlines_index
+  #last_punchlines
+    .container
+      %h2= @header_title
+      
+      - @punchlines.each do |pl|
+        = render "index_item", pl: pl
+
+      = will_paginate(@punchlines, renderer: BootstrapPagination::Rails)

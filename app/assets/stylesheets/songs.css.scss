@@ -1,0 +1,108 @@
+// Place all the styles related to the Songs controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#song_card{
+  #lyrics{
+    font-size: 17px;
+    line-height: 27px;
+    h2 {
+      font-size: 16px;
+      margin: 0px;
+      color: #777;
+      display: block;
+      float: none;
+    }
+    p {
+      background-color: #F7F7F7;
+      padding: 10px 20px;
+      margin-top: 0.7em
+    }
+
+    &::selection {
+      background: #00FF00; /* Safari */
+      }
+    &::-moz-selection {
+      background: #00FF00; /* Firefox */
+    }
+  }
+
+  #lyrics_info, #song_player, #contributors, #song_albums{
+    margin-bottom:30px;
+  }
+
+  #lyrics_info{
+    // @include border-radius(6px);
+    // padding:10px;
+    // border: 1px solid #d0d0d0;
+
+    ul{
+      margin:0;
+      padding:0;
+
+      li{
+        list-style-type: none;
+        border-bottom:1px dotted #e7e7e7;
+        padding-bottom:3px;
+
+        & > img{
+          float: left;
+          width: 32px;
+          height: 32px;
+          margin: 6px 10px 0 3px;
+        }
+
+        h5, h6{
+          margin:2px 0px;
+        }
+
+        h5{
+          font-size:1.2em;
+        }
+
+        h6{
+          text-transform: uppercase;
+          color:#999;
+          font-size:11px;
+        }
+
+        &:last-child{
+          border:0px;
+          padding-bottom:0px;
+        }
+      }
+    }
+  }
+
+  #song_albums {
+    .title {
+      margin-bottom: 10px;
+      img { margin-right: 10px;}
+    }
+    .tracklist {
+      .num_track { 
+        display: inline-block;
+        width: 25px;
+        font-size: 13px;
+        color: #999;
+        font-family: 'Lato', serif;
+      }
+      .current a { color: black }
+      margin-bottom: 20px;
+    }
+  }
+
+  #song_player{
+    background: #f0f0f0;
+
+    .loading{
+      text-align: center;
+      padding:50px 0px;
+    }
+  }
+}
+
+a img.verified-account-icon {
+  width:16px;
+  vertical-align: bottom;
+}

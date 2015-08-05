@@ -1,0 +1,10 @@
+%tr.nested-fields
+  %td= f.hidden_field :artist_id, class: 'featuring-artist'
+  %td.center= f.check_box :mc
+  %td.center= f.check_box :producer
+  %td.center= f.check_box :dj
+  %td.center= f.check_box :clip_director
+  %td.center= f.check_box :collaboration
+  %td.right.action
+    = link_to_remove_association f, class: 'btn btn-danger btn-small' do
+      Borrar

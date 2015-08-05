@@ -1,0 +1,32 @@
+= form_for [:admin, @user] do |f|
+  - if @user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  .row
+    .span12
+      .field
+        = f.label :email
+        = f.email_field :email
+
+      .field
+        = f.label :displayname, 'Nombre'
+        = f.text_field :displayname
+
+      .field
+        = f.label :admin, class: 'checkbox inline' do
+          = f.check_box :admin
+          Admin
+
+        = f.label :staff, class: 'checkbox inline' do
+          = f.check_box :staff
+          Staff
+
+  .row
+    .span12
+      .form-actions
+        = f.submit 'Save', class: 'btn btn-primary'
+        = link_to 'Cancelar', admin_users_path, class: 'btn'

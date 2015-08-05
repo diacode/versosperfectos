@@ -1,0 +1,16 @@
+- reviews.each do |review|
+  .review
+    .cover.pull-left= image_tag review.album.cover_url(:small)
+    .pull-left
+      = link_to album_review_path(review.album, review), class: 'album-details' do 
+        = review.album.effective_artist_name
+        %br
+        = "#{review.album} (#{review.album.year})"
+      .score
+        %i.icon-star
+        = review.total_score
+      .meta.muted
+        Enviada el 
+        = l review.created_at.to_date, format: :long
+
+    .clearfix

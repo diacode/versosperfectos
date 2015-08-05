@@ -1,0 +1,61 @@
+= render "nav"
+
+= form_for @user, url: account_path, html: {id: 'account_general_form', multipart: true, class: 'form-horizontal'} do |f|
+
+  - if flash[:notice].present?
+    %div{class: 'alert alert-success'}= flash[:notice]
+
+  - if @user.errors.any?
+    #error_explanation
+      %div{:class => "alert alert-error"}
+        %h2 No se pudo realizar la operación
+
+        %ul
+          - @user.errors.full_messages.each do |msg|
+            %li= msg
+
+  %h1 Cuenta de usuario
+  
+  .row-fluid      
+    .span2
+      = image_tag current_user.avatar_url, id: 'img_avatar', class: 'img-circle'
+
+      - if @user.avatar.file.present?
+        = f.label :remove_avatar, class: 'checkbox' do 
+          = f.check_box :remove_avatar
+          Borrar actual
+    
+    .span10
+      %h3 Credenciales
+
+      .control-group
+        = f.label :displayname, 'Nombre de usuario', class: 'control-label'
+        .controls
+          = f.text_field :displayname
+
+      .control-group
+        = f.label :password, 'Contraseña', class: 'control-label'
+        .controls
+          = f.password_field :password
+
+      .control-group
+        = f.label :password, 'Repetir contraseña', class: 'control-label'
+        .controls
+          = f.password_field :password_confirmation
+
+
+      %h3 Avatar
+    
+      .control-group
+        = f.label :avatar, 'Archivo', class: 'control-label'
+        .controls
+          = f.file_field :avatar
+      
+      .control-group
+        = f.label :remote_avatar_url, "Avatar remoto", class: 'control-label'
+        .controls
+          = f.text_field :remote_avatar_url, placeholder: 'Súbe tu avatar desde una URL'
+
+    .row-fluid
+      .span12
+        = f.submit "Guardar", class: 'button orange'

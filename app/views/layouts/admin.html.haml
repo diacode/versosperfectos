@@ -1,0 +1,71 @@
+!!!
+%html
+  %head
+    %title= yield :title
+    = stylesheet_link_tag    "admin/base", :media => "all"
+    = javascript_include_tag "admin/base"
+    = csrf_meta_tags
+    
+  %body{:data => {:controller => controller_name, :action => action_name}}
+    #admin_top_bar.navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse"}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.brand{:href => "#"} VP Admin
+          .nav-collapse
+            %ul.nav
+              %li
+                = link_to "Dashboard", admin_root_path
+              %li
+                = link_to "Home", root_path
+
+          .btn-group.pull-right
+            %a.btn.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              %i.icon-user
+              = current_user.displayname
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                = link_to "Perfil", "#"
+              %li.divider
+              %li
+                = link_to "Desconectar", destroy_user_session_path, :method => :delete
+    %header
+      .subnav.subnav-fixed
+        %ul.nav.nav-pills
+          %li{:class => ('active' if params[:controller] == "admin/featured")}
+            = link_to "Destacados", admin_featured_blocks_path
+          %li{:class => ('active' if params[:controller] == 'admin/artists')}
+            = link_to "Artistas", admin_artists_path
+          %li{:class => ('active' if params[:controller] == 'admin/albums')}
+            = link_to "Álbumes", admin_albums_path
+          %li{:class => ('active' if params[:controller] == 'admin/posts')}
+            = link_to "Noticias", admin_posts_path
+          %li{:class => ('active' if params[:controller] == 'admin/record_labels')}
+            = link_to "Sellos", admin_record_labels_path
+          %li{:class => ('active' if params[:controller] == 'admin/punchlines')}
+            = link_to "Punchlines", admin_punchlines_path
+          - if current_user.admin
+            %li{:class => ('active' if params[:controller] == 'admin/banners')}
+              = link_to "Banners", admin_banners_path
+            %li{:class => ('active' if params[:controller] == 'admin/users')}
+              = link_to "Usuarios", admin_users_path
+            %li{:class => ('active' if params[:controller] == 'admin/task_logs')}
+              = link_to "Logs", admin_task_logs_path
+
+
+    #admin_wrapper.container
+      - flash.each do |name, msg|
+        %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
+          %a.close{"data-dismiss" => "alert"} ×
+          = content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String)
+          
+      = yield
+
+    %footer
+      .container
+        %p.pull-right
+          — Versos Perfectos 2012

@@ -1,0 +1,190 @@
+@import "compass";
+
+#user_profile{
+  .profile-header{
+    float:left;
+    margin:10px 0px 15px;
+    clear:both;
+
+    .avatar{
+      width:80px;
+      margin-right:15px;
+    }
+  
+    h3{
+      display:block;
+      float:none;
+      margin-bottom:10px;
+      text-transform: none;
+    }
+  }
+}
+
+#favorite_artists,
+#favorite_albums,
+#favorite_songs{
+  clear:both;
+}
+
+#favorite_artists{
+  color:#999;
+  clear:both;
+  text-align: center;
+
+  .artist-item{
+    display:inline-block;
+    margin:0px 15px 15px 0px;
+    overflow: hidden;
+    width:107px;
+
+    img.artist {
+      //float:left;
+      width: 105px;
+      border:1px solid #ddd;
+    }
+
+    .artist_name, .types{
+      padding:3px 0px;
+      text-align: center;
+    }
+
+    .artist_name{
+      width:100%;
+
+      a{
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+.album-list{
+  float:left;
+  clear:both;
+
+  .album{
+    float:left;
+    position:relative;
+    margin:0px 8px 20px 0px;
+    width:150px;
+    overflow: hidden;
+
+    .cover{
+      img{
+        width:150px;
+        height:150px;
+      }
+    }
+
+    .title{
+      width:100%;
+      text-align: center;
+      margin-top:5px;
+
+      a{
+        width:100%;
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+
+    .year{
+      text-align: center;
+    }
+  }
+}
+
+#album_ratings{
+  .cover{
+    display:block;
+    position:relative;
+
+    .cover-overlay{
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:150px;
+      background:rgba(0, 0, 0, 0.2);
+      @include transition(all 0.25s ease-out);
+      
+      .rating{
+        color:#fff;
+        font-size: 55px;
+        line-height: 150px;
+        text-align: center;
+        font-weight: bold;
+        @include transition(all 0.25s ease-out);
+      }
+
+      &:hover{
+        background: rgba(0, 0, 0, 0.05);
+
+        .rating{
+          font-size: 95px;
+          line-height: 150px;
+          color: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+}
+
+#favorite_songs{
+  margin-bottom:20px;
+}
+
+ul#lyrics_sent{
+  margin:0 0 20px;
+  padding:0;
+
+  li { 
+    display:block;
+    list-style-type: none; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.btn-load-more{
+  clear:both;
+  margin-bottom:30px;
+}
+
+#reviews_sent{
+  .review{
+    border-bottom: 1px dotted #ccc;
+    padding: 5px;
+
+    .cover{
+      img{ width: 100px; }
+    }
+    .album-details{
+      margin: 10px 0px 0px 10px;
+      display:block;
+    }
+    .score{
+      @include border-radius(3px);
+      background:rgba(0, 0, 0, 0.7);
+      display:inline-block;
+      color:#fff;
+      padding:0px 5px;
+      margin: 5px 0px 0px 10px;
+      text-decoration: none;
+      vertical-align: middle;
+      line-height: 23px;
+    }
+    .meta{
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 13px;
+      margin: 5px 0px 0px 3px;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+= form_for [:admin, @featured_block], html: {multipart: true} do |f|
+  = f.hidden_field :slot, value: params[:slot]
+
+  = f.hidden_field :crop_width, value: @crop_dimensions[:width] 
+  = f.hidden_field :crop_height, value: @crop_dimensions[:height]
+  = f.hidden_field :crop_x
+  = f.hidden_field :crop_y
+  = f.hidden_field :modified_width
+
+  .row-fluid
+    .span4   
+      .field
+        = f.label :title, "Título"
+        = f.text_field :title
+    
+    .span4
+      .field
+        = f.label :link, "Enlace"
+        = f.text_field :link
+
+    .span4
+      .field
+        = f.label :poster
+        = f.file_field :poster
+
+  .row-fluid
+    .span12
+      %h3 Manipular imagen
+
+      .featured-block-poster-actions
+        %button#redim.btn.btn-primary{type: 'button', disabled:'disabled'} Redimensionar
+        %button#crop.btn.btn-primary{type: 'button', disabled:'disabled'} Seleccionar area
+
+      #manipulate_wrapper
+        %img#handled
+
+      = text_field_tag :image_resizer
+
+  .row-fluid
+    .span12
+      .form-actions
+        = f.submit "Guardar", class: 'btn btn-primary'

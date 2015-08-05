@@ -1,0 +1,48 @@
+- content_for :title do
+  Listado de trabajos
+
+#album_index.index-view
+  .row-fluid
+    .span3
+      .sidebar
+        = form_tag albums_path, :method => :get, :id => "search_album" do
+          .input-append
+            = text_field_tag :q, params[:q], :class => "span10"
+            %button.btn
+              %i.icon.icon-white.icon-search
+
+          %h3.filter-header Filtrar por año
+
+          = number_field_tag :year, params[:year], :class => "span6", min: 1980, max: Time.now.year+2
+
+          %h3.filter-header Filtrar por tipo
+
+          %ul.filter
+            %li
+              = link_to "Indiferente", albums_url(@filter_params.except(:kind)), :class => ("selected" if @filter_params[:kind].nil?)
+            %li
+              = link_to "LP", albums_url(@filter_params.merge(:kind => "LP")), :class => ("selected" if @filter_params[:kind] == "LP")
+            %li
+              = link_to "EP", albums_url(@filter_params.merge(:kind => "EP")), :class => ("selected" if @filter_params[:kind] == "EP")
+            %li
+              = link_to "Maxi", albums_url(@filter_params.merge(:kind => "CDM")), :class => ("selected" if @filter_params[:kind] == "CDM")
+            %li
+              = link_to "Mixtape", albums_url(@filter_params.merge(:kind => "MX")), :class => ("selected" if @filter_params[:kind] == "MX")
+            %li
+              = link_to "Single", albums_url(@filter_params.merge(:kind => "CDS")), :class => ("selected" if @filter_params[:kind] == "CDS")
+            %li
+              = link_to "VA", albums_url(@filter_params.merge(:kind => "VA")), :class => ("selected" if @filter_params[:kind] == "VA")
+
+    .span9
+      #album_list
+        %h1 Listado de trabajos
+
+        - @albums.each do |alb|
+          .album-item
+            = link_to(image_tag(alb.cover_url(:medium), :class => "cover"))
+            
+            .info
+              %h3.artist= link_to alb.artist.name, artist_url(alb.artist)
+              %h2.title= link_to "#{alb.title} (#{alb.year})", album_url(alb)
+
+        = will_paginate @albums, :renderer => BootstrapPagination::Rails

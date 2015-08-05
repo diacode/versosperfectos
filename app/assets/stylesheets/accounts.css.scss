@@ -1,0 +1,62 @@
+// Place all the styles related to the account controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+ul#account_sections{
+  float:left;
+  clear:both; 
+  width:100%;
+  background: #FCFCFC;
+  margin:0;
+  padding:0px;
+  box-shadow: 0px 1px 2px #ccc;
+
+  li{
+    float:left;
+    text-align: center;
+    list-style-type: none;
+    width:150px;
+
+    a{
+      display:block;
+      padding:20px 15px 15px;
+
+      i{
+        font-size: 30px;
+        margin:0 auto 20px;
+        display:block;
+      }
+
+      span{
+        display:block;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    a:hover, a.current{
+      background: #DFDFDF;
+    }
+  }
+}
+
+#account_general_form,
+#social_connections{
+  margin-bottom:0;
+  padding:30px;
+  clear:both;
+
+  .alert{
+    margin-bottom:35px;
+  }
+
+  h1{
+    margin-bottom:35px;
+  }
+
+  #img_avatar{
+    margin-bottom: 15px;
+  }
+}

@@ -1,0 +1,59 @@
+- content_for :title do
+  Descargar #{@punchline.album.effective_artist_name} - #{@punchline.album.title} (#{@punchline.album.year})
+
+#punchline_record
+  .container
+    .row-fluid
+      .span3
+        = image_tag @punchline.album.cover_url(:medium), class: 'cover'
+
+      .span9
+        %h2
+          = @punchline.album.artist.name
+          %br
+          %strong= @punchline.album.title
+
+        #download_counter{title: "Este disco se ha descargado #{@punchline.downloads} veces."} 
+          %i.icon-arrow-down
+          = number_with_delimiter @punchline.downloads
+
+        #intro_text
+          = sanitize @punchline.description, tags: %w(p)
+
+        .share
+          %a.twitter-share-button{"data-lang" => "es", "data-text" => "Descargar: #{@punchline.album.effective_artist_name} - #{@punchline.album.title}", "data-url" => "#{punchline_url(@punchline)}", "data-via" => "versosperfectos", href: "https://twitter.com/share"} Twittear
+
+          .fb-like{"data-action" => "recommend", "data-colorscheme" => "light", "data-height" => "The pixel height of the plugin", "data-href" => "#{punchline_url(@punchline)}", "data-layout" => "button_count", "data-send" => "false", "data-show-faces" => "true", "data-width" => "The pixel width of the plugin"}
+
+        #tracklist.sm2-inline-list
+          %h3 Tracklist
+
+          - @punchline.album.tracks.each do |track|
+            - song_file = song_file_for_song(track.song_id, @song_files)
+            .track
+              .player.pull-left
+                .ui360
+                  = link_to "", song_stream_punchline_path(@punchline, track.song_id), type: "audio/mp3"
+              .track-number.pull-left= track.track_number.to_s.rjust(2, '0')
+              .title.pull-left
+                = track.song.title
+                %br
+                %span.production Producción: #{track.song.producers.map { |e| e.name }.join(", ")}
+                .stats
+                  %span.downloads{title: "Esta canción se ha descargado por separado #{song_file.downloads} veces."} 
+                    %i.icon-arrow-down
+                    %strong= number_with_delimiter song_file.downloads
+                  %span.plays{title: "Esta canción se ha reproducido #{song_file.plays} veces."} 
+                    %i.icon-play  
+                    %strong= number_with_delimiter song_file.plays 
+              .pull-right                
+                = link_to song_download_punchline_path(@punchline, track.song_id), title: "Descargar #{track.song.title}", class: 'download-song' do
+                  %i.icon-download
+              .clearfix
+
+          - if @punchline.package_available?
+            .full-download
+              = link_to download_package_punchline_path(@punchline) do
+                %i.icon-download
+                Descarga completa
+                

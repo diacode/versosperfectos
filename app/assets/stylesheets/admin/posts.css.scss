@@ -1,0 +1,43 @@
+.redactor_box iframe{
+  display:inline !important;
+}
+
+ul#categories {
+  margin-left:10px;
+  
+  li{
+    list-style-type:none;
+  }
+}
+.twitter-message-wrapper{
+  display:none;
+
+  #post_twitter_message{
+    margin-top:20px;
+    width:60%;
+    height: 40px;
+  }
+
+  input[type="text"]{
+    margin-bottom:0px;
+  }
+
+  span#twitter_lookup_status{
+    display:inline-block;
+    vertical-align: middle;
+    &.loading{
+      background: url(ajax-loader-mini.gif) center center no-repeat;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+#post_flag_twitter,
+#post_flag_facebook{
+  display:none;
+}
+
+#post_draft{
+  display: none;
+}

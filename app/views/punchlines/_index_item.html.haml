@@ -1,0 +1,14 @@
+.punchline-item
+  = image_tag pl.album.cover_url, width: 200, class: 'cover'
+  .punchline-details
+    .pull-left
+      = link_to pl, class: 'punchline-link' do 
+        = pl.album.artist
+        %br
+        %strong= pl.album.title
+
+    / .pull-right
+    /   %i.icon-cloud-download
+    /   = pl.downloads
+
+    .clearfix

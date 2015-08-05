@@ -1,0 +1,26 @@
+!!!
+%html
+  %head
+    %title= yield :title
+    = stylesheet_link_tag    "access/base", :media => "all"
+    / = javascript_include_tag "application"
+    = csrf_meta_tags
+
+  %body
+    %header      
+      %h1.logo
+        = link_to root_url do 
+          = image_tag "old-logo.png"
+
+    #wrapper
+      - flash.each do |type, value|
+        .alert.alert-success
+          = value 
+
+      = yield
+
+    %footer
+      .container
+        = Time.now.year 
+        Versos Perfectos. Todos los derechos reservados.
+        Sitio web desarrollado por #{link_to "Diacode", "http://diacode.com", rel: 'nofollow'}.

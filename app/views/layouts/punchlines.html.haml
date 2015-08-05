@@ -1,0 +1,40 @@
+!!!
+%html
+  %head
+    %title= yield :title
+    = stylesheet_link_tag    "punchlines/base", :media => "all"
+    = javascript_include_tag "punchlines/base"
+    = csrf_meta_tags
+    :javascript
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-594462-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+  %body{:data => {:controller => controller_name, :action => action_name}}
+    %header
+      .container
+        .pull-left
+          %h1
+            = link_to punchlines_path do 
+              = image_tag "punchlines/punchlines-horizontal-logo-white.png"
+
+        .pull-right
+          = link_to "Volver a la web", root_url, class: 'back-to-root'
+
+    #wrapper
+      = yield
+
+    %footer
+      .container
+        .row-fluid
+          .span12
+            .credits
+              = Time.now.year 
+              Versos Perfectos. Todos los derechos reservados.
+              Sitio web desarrollado por #{link_to "Diacode", "http://diacode.com", rel: 'nofollow'}.

@@ -1,0 +1,103 @@
+!!!
+%html
+  %head
+    %title= content_for?(:title) ? yield(:title) : default_title
+    %meta{:content => content_for?(:description) ? yield(:description) : default_meta_description, :name => "description"}
+    = auto_discovery_link_tag(:rss, feed_posts_url(format: :rss))
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    = yield(:head)
+    :javascript
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-594462-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+  %body{:data => {:controller => controller_name, :action => action_name}}
+    #top_bar
+      .container
+        %ul#login_box.nav.pull-right
+          - if user_signed_in?
+            %li.dropdown
+              = link_to "#", class: 'dropdown-toggle', data: {toggle: 'dropdown'} do
+                %i.icon-user
+                = current_user.displayname
+                %b.caret
+              %ul.dropdown-menu.pull-right
+                %li= link_to "Ver perfil", profile_path(current_user)
+                %li= link_to "Editar cuenta", edit_account_path
+                %li.divider-horizontal
+                %li= link_to "Desconectar", destroy_user_session_path, :method => :delete 
+
+          - else
+            %li= link_to "Identíficate", new_user_session_path   
+            %li.divider-vertical
+            %li= link_to "Regístrate", new_user_registration_path
+
+          .clearfix
+    %nav
+      .container
+        .pull-left
+          %ul
+            %li
+              =link_to "Noticias", posts_url
+            %li
+              =link_to "Artistas", artists_url
+            %li
+              =link_to "Discos", albums_url
+            %li
+              =link_to "Punchlines", punchlines_url
+
+        .pull-right
+          = form_tag "/search/posts", id: "search", method: :get do |f|
+            .input-append
+              = text_field_tag "q", ""
+              %button.btn
+                %i.icon-search
+
+        .clearfix
+    
+    %header
+      .container
+        .logo
+          = link_to root_url do 
+            = image_tag "old-logo.png"
+        
+        .ad_box_728.ad=raw @ad_horizontal_code  
+
+    #wrapper
+      %div#main.container
+        = yield
+
+    %footer
+      .container
+        .row-fluid
+          .span8
+
+          #social.span4
+            %h5 Síguenos en la red
+            = link_to "http://twitter.com/versosperfectos" do 
+              %i.icon-twitter
+            = link_to "http://www.facebook.com/VersosPerfectos" do 
+              %i.icon-facebook
+            = link_to "mailto:contacto@versosperfectos.com" do
+              %i.icon-envelope-alt
+            = link_to feed_posts_path(format: :rss) do
+              %i.icon-rss
+
+
+        .row-fluid
+          .span12
+            .credits
+              = Time.now.year 
+              Versos Perfectos. Todos los derechos reservados.
+              - if controller_name == 'home'
+                Sitio web desarrollado por #{link_to "Diacode", "http://diacode.com"}.
+              - else
+                Sitio web desarrollado por #{link_to "Diacode", "http://diacode.com", rel: 'nofollow'}.

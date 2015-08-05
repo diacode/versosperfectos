@@ -1,0 +1,82 @@
+.artists_button_bar{
+  margin-bottom:18px;
+  text-align:right;
+}
+
+#artist_search{
+  display:none;
+}
+
+body[data-controller="artists"][data-action="edit"]{
+  .popover-inner{
+    width:290px;
+  }
+  .popover-content{
+    padding:0px 0px 14px;
+
+    form{
+      padding:14px;
+    }
+  }
+}
+
+#artist_search_form{
+  margin-bottom:0px;
+}
+
+.artist_search_results{
+
+  .result{
+    padding:15px;
+    border-top:1px solid #ddd;
+    cursor:pointer;
+  }
+
+  .result:hover{
+    background-color:#eee;
+  }
+
+  p.no_results{
+    color: #999999;
+    text-align:center;
+    padding:7px;
+    font-style:italic;
+  }
+}
+
+.artist_search_results.loading{
+  min-height:40px;
+  background:url(ajax-loader.gif) center center no-repeat;
+}
+
+table#related_members,
+table#related_groups,
+table#unreleased,
+table#aliases{
+  width:100%;
+
+  th.artist_id,
+  th.action,
+  th.song_id,
+  th.alias_id{
+    width:50px;
+  }
+
+  tbody tr td {
+    vertical-align:middle;
+
+    input{
+      margin-bottom:0px !important;
+    }
+  }
+}
+
+
+
+p#num_members_related,
+p#num_groups_related,
+p#num_songs_unreleased{
+  color:#999;
+  margin-top: 3px;
+  font-style: italic;
+}

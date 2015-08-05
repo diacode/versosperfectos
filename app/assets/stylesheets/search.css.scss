@@ -1,0 +1,32 @@
+#search_page{
+  form#search{
+    margin: 0px;
+
+    .input-append{
+      margin: 0px;
+    }
+  }
+
+  form#search, #coincidences, #results, .pagination{
+    margin:35px 0px;
+  }
+
+  #results{
+    .search-result{
+      margin-bottom: 25px;
+      
+      h3.title{
+        margin-bottom: 5px;
+        font-weight: normal;
+      }
+
+      .content{
+
+      }
+
+      .meta{
+        margin-bottom: 5px;
+      }
+    }
+  }
+}

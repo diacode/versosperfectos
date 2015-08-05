@@ -1,0 +1,56 @@
+- content_for :title do
+  Dashboard
+
+%h1 Dashboard
+
+.well
+  %h2 Estadísticas
+
+  %ul
+    %li
+      Artistas:
+      %strong= @total_artists
+      %ul
+        %li 
+          Nacionales: 
+          %strong= @national_artists
+        %li
+          Internacionales: 
+          %strong= @international_artists
+    %li 
+      Álbums: 
+      %strong= @total_albums
+      %ul
+        %li 
+          Nacionales: 
+          %strong= @national_albums
+        %li
+          Internacionales: 
+          %strong= @international_albums
+    %li 
+      Sellos: 
+      %strong= @total_labels
+      %ul
+        %li 
+          Nacionales: 
+          %strong= @national_labels
+        %li
+          Internacionales: 
+          %strong= @international_labels
+    %li 
+      Usuarios: 
+      %strong= @total_users
+      %ul
+        %li 
+          Administradores: 
+          %strong= @admins
+        %li
+          Staff: 
+          %strong= @staff
+    %li
+      Noticias:
+      %strong= @posts
+      %ul
+        %li
+          Comentarios
+          %strong= @comments

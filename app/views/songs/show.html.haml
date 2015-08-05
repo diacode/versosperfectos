@@ -1,0 +1,97 @@
+- content_for :title do
+  = "#{@song.artist.name} - #{@song.title}"
+
+- content_for :description do
+  = first_verse(@song)
+
+- content_for :head do
+  = open_graph_for_song @song
+
+#song_card.regular_view
+  .row-fluid
+    .span12
+      %h1
+        #{link_to @song.artist.name, @song.artist} - #{@song.title}
+      - if @song.producers.any?
+        %h3
+          Producido por:
+          = @song.producers.map { |producer| link_to(producer.name, producer) }.join(", ").html_safe
+  .row-fluid
+    .span8
+      #lyrics
+        %h2 Letra de #{@song.title}
+        - if @song.lyrics.blank?
+          %p.muted Todavía no disponemos de la letra de esta canción.
+        - else
+          %p= @song.lyrics.html_safe
+
+    .span4
+      - if @song.audio_link or @song.has_spotify_embed?
+        %h4 Escucha la canción
+
+        - if @song.audio_link
+          %audio.youtube-audio{width:"100%"}
+            %source{type: "audio/youtube", src: @song.audio_link}
+
+        - elsif @song.has_spotify_embed?
+          #song_player{:data => {:song_id => @song.id}}
+            %p.loading Cargando reproductor...
+
+
+      #lyrics_info
+        %ul
+          - if @song.lyrics_sender
+            %li
+              = image_tag "http://static.versosperfectos.com/datos/avatares/avatar_5203.jpeg"
+              %h6 Letra enviada por
+              %h5 #{link_to @song.lyrics_sender, profile_path(@song.lyrics_sender)}
+
+          / %li
+          /   = image_tag "check.png"
+          /   %h6 Validada por
+          /   %h5
+          /     = link_to "#" do
+          /       Nach
+          /       = image_tag "vp-verified-account.png", :class => "verified-account-icon"
+
+          / %li
+          /   = image_tag "quote.png"
+          /   %h6 Letra explicada por
+          /   %h5
+          /     = link_to "#" do
+          /       Nach
+          /       = image_tag "vp-verified-account.png", :class => "verified-account-icon"
+
+      %h4 Trabajos relacionados
+      #song_albums
+        - @song.albums.each do |album|
+          .title
+            = image_tag album.cover_url(:small), width: 40, align: 'left'
+            = link_to album do
+              #{album.effective_artist_name} - #{album.title}
+            .clearfix
+          %ul.unstyled.tracklist
+            - album.tracks.each do |trk|
+              %li{class: ('current' if trk.song_id == @song.id)}
+                %span.num_track #{"%02d" % trk.track_number}.
+                = link_to trk.song.title, song_url(trk.song)
+
+      .ad_box_300= raw @ad_rectangle
+
+      / %h4 Contribuidores
+
+      / %p 
+      /   Un total de
+      /   %strong 10
+      /   personas han contribuido a explicar esta letra. 
+
+      /   %ul.unstyled
+      /     %li
+      /       =image_tag "http://static.versosperfectos.com/datos/avatares/avatar_5203.jpeg"
+
+
+%span.holder
+  .share-highlight-btn
+    .btn-caret
+    .btn-left Explicar
+    .btn-right ×

@@ -1,0 +1,87 @@
+- content_for(:title)        { "#{truncate @post.title, length: 53} | VersosPerfectos" }
+
+- content_for(:description)  { strip_tags(@post.content).squish.truncate(155) unless @post.content.nil? }
+
+- content_for(:head) do
+  = open_graph_for_post @post
+
+.left_col
+  .post
+    .categories
+      = @post.categories.map { |cat| cat.name }.join(", ")
+
+    %h1.title
+      = link_to @post.title, post_extended_path(@post.permalink_hash)
+
+    .meta
+      Por:
+      - if @post.creator
+        %strong=link_to @post.creator.displayname, profile_path(@post.creator)
+      - else
+        %strong VP Staff
+
+      —
+      %strong= l @post.published_at, :format => :long
+
+    .content
+      = raw @post.content
+
+    .tags
+      %h4 Etiquetas:
+      %ul
+        - @post.tags.each do |tag|
+          %li=link_to tag.name, posts_path(tag: tag.slug)
+
+    .share
+      %h4 Compártelo
+
+      %a.twitter-share-button{"data-lang" => "es", "data-text" => @post.title, "data-url" => "#{post_extended_url(@post.permalink_hash)}", "data-via" => "versosperfectos", href: "https://twitter.com/share"} Twittear
+
+      .fb-like{"data-action" => "recommend", "data-colorscheme" => "light", "data-height" => "The pixel height of the plugin", "data-href" => "#{post_extended_url(@post.permalink_hash)}", "data-layout" => "button_count", "data-send" => "false", "data-show-faces" => "true", "data-width" => "The pixel width of the plugin"}
+
+  #comments.comments
+    %h2
+      = @comments_count 
+      Comentarios
+
+    .comment_list
+      - if !@comments.empty?
+        - @comments.each do |comment|
+          .comment
+            .avatar
+              =image_tag comment.user.avatar_url
+            
+            .bubble_triangle
+
+            .bubble
+              .meta
+                = link_to comment.user.displayname, profile_path(comment.user)
+                %span.when
+                  hace
+                  = time_ago_in_words comment.created_at
+
+                .reply
+
+              .content
+                = raw comment.content
+      - else
+        %p.empty_comments Aun nadie ha comentado esta noticia.
+
+    .comments_pagination
+      = will_paginate @comments
+
+    .leave_comment
+      %h2 Deja tu comentario
+
+      - if user_signed_in?
+        = form_for([@post, @post.comments.build]) do |f|
+          = f.text_area :content
+          %div= f.submit "Enviar comentario", :class => "button orange"
+
+      - else
+        %p #{link_to "Registrate", new_user_registration_path} para dejar un comentario.
+
+
+.right_col
+  .ad.ad_box_300=raw @ad_rectangle
+  = render "top_posts_sidebar"

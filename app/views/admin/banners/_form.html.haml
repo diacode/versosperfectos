@@ -1,0 +1,20 @@
+= form_for [:admin, @banner] do |f|
+  - if @banner.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@banner.errors.count, "error")} prohibited this banner from being saved:"
+      %ul
+        - @banner.errors.full_messages.each do |msg|
+          %li= msg
+
+  .row
+    .span12
+      .field
+        = f.label :name, 'Nombre'
+        = f.text_field :name
+      .field
+        = f.label :code, 'Código'
+        = f.text_area :code, rows: 10, class: 'input-xxlarge'
+
+  .form-actions
+    = f.submit 'Guardar', class: 'btn btn-primary'
+    = link_to 'Cancelar', admin_banners_path, class: 'btn'
